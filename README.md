@@ -1,0 +1,2 @@
+# MecHiu
+Educational Typer Game
