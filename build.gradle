@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
   mainModule = 'org.keltiga.mechiu'
-  mainClass = 'org.keltiga.mechiu.HelloApplication'
+  mainClass = 'org.keltiga.mechiu.Main'
 }
 
 javafx {
@@ -35,6 +35,8 @@ javafx {
 }
 
 dependencies {
+  implementation 'org.postgresql:postgresql:42.6.0'
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
   implementation('org.controlsfx:controlsfx:11.2.1')
   implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
   implementation('com.github.almasb:fxgl:17.3') {
