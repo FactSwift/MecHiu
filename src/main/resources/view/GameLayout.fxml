@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="keltiga.controller.GameController">
+    <children>
+
+        <Pane fx:id="gamePane" prefHeight="600" prefWidth="800"/>
+
+
+        <TextField fx:id="usernameField" layoutX="300" layoutY="50" promptText="Enter Username"/>
+        <Button text="Login" layoutX="500" layoutY="50" onAction="#loginUser"/> <!-- Login button -->
+
+
+        <Label fx:id="messageLabel" layoutX="300" layoutY="80" text="Enter username to start the game"/>
+
+
+        <Label fx:id="scoreLabel" layoutX="20" layoutY="20" text="Score: 0"/>
+
+
+        <TextField fx:id="inputField" layoutX="300" layoutY="550" promptText="Type here..."/>
+        <Button text="End Game" layoutX="500" layoutY="550" onAction="#endGame"/> <!-- End game button -->
+    </children>
+</AnchorPane>
+
