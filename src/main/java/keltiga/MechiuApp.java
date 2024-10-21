@@ -5,14 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import keltiga.controller.SceneManager;
 
 public class MechiuApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/GameLayout.fxml"));
+        SceneManager.setStage(primaryStage);
+        SceneManager.switchToUserSelection();
         primaryStage.setTitle("Typer Game - Mechiu");
-        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
