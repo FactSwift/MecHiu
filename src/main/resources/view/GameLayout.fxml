@@ -23,6 +23,9 @@
         <Label fx:id="stageLabel" layoutX="300" layoutY="20" text="Select an Island and Difficulty"/>
 
 
+        <Label fx:id="healthLabel" layoutX="50" layoutY="70" text="Health: 3"/>
+
+
         <Button fx:id="startButton" layoutX="500" layoutY="550" text="Start Game"/>
 
         <Button layoutX="600" layoutY="550" text="End Game" onAction="#endGame"/>

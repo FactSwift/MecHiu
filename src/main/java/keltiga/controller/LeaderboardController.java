@@ -3,12 +3,15 @@ package keltiga.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import keltiga.model.User;
 import keltiga.dao.UserDAO;
-import java.util.List;     // Import List
+import keltiga.model.User;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LeaderboardController {
 
@@ -16,34 +19,29 @@ public class LeaderboardController {
     @FXML private TableColumn<User, String> usernameColumn;
     @FXML private TableColumn<User, Integer> highScoreColumn;
 
+    private UserDAO userDAO = new UserDAO();  // DAO to manage user data
     private User currentUser;
-
-
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-
-        System.out.println("Current user set to: " + user.getUsername());
-    }
-
 
     @FXML
     public void initialize() {
+        // Set up columns for TableView
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        highScoreColumn.setCellValueFactory(new PropertyValueFactory<>("highScore"));
         loadLeaderboard();
+    }
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
     }
 
 
     private void loadLeaderboard() {
-        UserDAO userDAO = new UserDAO();
+        Map<String, User> usersMap = userDAO.getAllUsers();
+        List<User> userList = usersMap.values().stream().collect(Collectors.toList());
 
-        List<User> users = userDAO.getAllUsers();
-
-
-        ObservableList<User> observableUserList = FXCollections.observableArrayList(users);
-
-
+        ObservableList<User> observableUserList = FXCollections.observableArrayList(userList);
         leaderboardTable.setItems(observableUserList);
     }
-
 
     @FXML
     private void goToLevelSelection() {

@@ -1,0 +1,5 @@
+{
+  "easy": ["cat", "dog", "fish", "sea", "coral"],
+  "medium": ["dolphin", "whale", "stingray", "jellyfish"],
+  "hard": ["oceanography", "shipwreck", "biodiversity"]
+}

@@ -5,16 +5,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import keltiga.dao.UserDAO;
 import keltiga.model.User;
+import keltiga.controller.SceneManager;
 
 public class UserController {
 
     @FXML private TextField usernameField;
     @FXML private Label messageLabel;
 
-    private UserDAO userDAO = new UserDAO();
+    private UserDAO userDAO = new UserDAO();  // DAO to manage user data
     private User currentUser;
 
-    // Login existing user
+
     @FXML
     private void loginUser() {
         String username = usernameField.getText().trim();
@@ -28,11 +29,12 @@ public class UserController {
             messageLabel.setText("User not found. Try creating a new user.");
         } else {
             messageLabel.setText("Welcome back, " + username + "!");
-            goToMainMenu();  // Proceed to the main menu
+            SceneManager.setCurrentUser(currentUser);  // Set current user in SceneManager
+            SceneManager.switchToLevelSelection();  // Proceed to level selection
         }
     }
 
-    // Create a new user
+
     @FXML
     private void createNewUser() {
         String username = usernameField.getText().trim();
@@ -49,11 +51,7 @@ public class UserController {
         currentUser = new User(username);
         userDAO.saveUser(currentUser);  // Save new user
         messageLabel.setText("New user created! Welcome, " + username + "!");
-    }
-
-    // Proceed to leaderboard page
-    private void goToMainMenu() {
-        // Example: switch to the level selection after login
-        SceneManager.switchToLevelSelection();  // Or SceneManager.switchToLeaderboard(currentUser);
+        SceneManager.setCurrentUser(currentUser);  // Set current user
+        SceneManager.switchToLevelSelection();  // Proceed to level selection
     }
 }

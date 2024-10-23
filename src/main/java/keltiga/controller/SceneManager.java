@@ -11,11 +11,61 @@ import java.io.IOException;
 public class SceneManager {
 
     private static Stage primaryStage;
-
+    private static User currentUser;
 
     public static void setStage(Stage stage) {
         primaryStage = stage;
     }
+
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+
+    public static void switchToLevelSelection() {
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/LevelSelection.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void startGame(String island, String difficulty) {
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/GameLayout.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+
+            GameController controller = loader.getController();
+            controller.startGame(island, difficulty);
+
+            primaryStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void switchToLeaderboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/Leaderboard.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public static void switchToUserSelection() {
@@ -26,37 +76,6 @@ public class SceneManager {
             primaryStage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error loading /view/UserSelection.fxml");
-        }
-    }
-
-
-    public static void switchToLeaderboard(User currentUser) {
-        try {
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/Leaderboard.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-
-
-            LeaderboardController controller = loader.getController();
-            controller.setCurrentUser(currentUser);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error loading /view/Leaderboard.fxml");
-        }
-    }
-
-    public static void switchToLevelSelection() {
-        try {
-            System.out.println("Switching to Level Selection...");
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/GameLayout.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error loading /view/GameLayout.fxml");
         }
     }
 }

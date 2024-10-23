@@ -11,105 +11,91 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import keltiga.dao.UserDAO;
 import keltiga.model.User;
+import com.google.gson.Gson;
 
-import java.util.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class GameController {
 
     @FXML private TextField inputField;
     @FXML private Label scoreLabel;
+    @FXML private Label healthLabel;
     @FXML private Pane gamePane;
     @FXML private Button startButton;
-    @FXML private Label stageLabel;
 
     private int score = 0;
+    private int health = 3;
+    private String selectedIsland;
+    private String selectedDifficulty;
     private Timeline gameLoop;
-    private List<String> wordPool;
     private Random random = new Random();
-
-    private String selectedIsland = "Coral Island";
-    private String selectedDifficulty = "Easy";
-
+    private List<String> wordPool;
     private User currentUser;
     private UserDAO userDAO = new UserDAO();
-
-    public void setCurrentUser(User user) {    // Method to set the current user
-        this.currentUser = user;
-    }
-
-    // Method to select Coral Island
-    @FXML
-    private void selectIslandCoral() {
-        this.selectedIsland = "Coral Island";
-        loadWordPool(selectedIsland, selectedDifficulty);
-    }
+    private Gson gson = new Gson();
 
     @FXML
-    private void selectIslandReef() {
-        this.selectedIsland = "Reef Island";
-        loadWordPool(selectedIsland, selectedDifficulty);
-    }
-
-    @FXML
-    private void selectIslandDeepSea() {
-        this.selectedIsland = "Deep Sea Island";
-        loadWordPool(selectedIsland, selectedDifficulty);
-    }
-
-    @FXML
-    private void selectDifficultyEasy() {
-        this.selectedDifficulty = "Easy";
-        loadWordPool(selectedIsland, selectedDifficulty);
-    }
-
-    @FXML
-    private void selectDifficultyMedium() {
-        this.selectedDifficulty = "Medium";
-        loadWordPool(selectedIsland, selectedDifficulty);
-    }
-
-    @FXML
-    private void selectDifficultyHard() {
-        this.selectedDifficulty = "Hard";
-        loadWordPool(selectedIsland, selectedDifficulty);
-    }
-
     public void initialize() {
-
-        loadWordPool(selectedIsland, selectedDifficulty);
-
-
-        startButton.setOnAction(event -> startGame());
-
-
+        this.currentUser = SceneManager.getCurrentUser();
         inputField.setOnAction(event -> checkInput());
     }
 
 
-    private void loadWordPool(String island, String difficulty) {
-
-        Map<String, List<String>> wordPools = new HashMap<>();
-
-        if (island.equals("Coral Island")) {
-            if (difficulty.equals("Easy")) {
-                wordPools.put("Easy", Arrays.asList("cat", "dog", "fish", "sea", "coral"));
-            } else if (difficulty.equals("Medium")) {
-                wordPools.put("Medium", Arrays.asList("dolphin", "whale", "stingray", "jellyfish"));
-            } else {
-                wordPools.put("Hard", Arrays.asList("oceanography", "shipwreck", "biodiversity"));
-            }
-        }
-
-
-        wordPool = wordPools.get(difficulty);
-        stageLabel.setText(island + " - " + difficulty);
+    @FXML
+    public void selectIslandCoral() {
+        selectedIsland = "Coral Island";
+        System.out.println("Coral Island selected.");
     }
 
 
-    private void startGame() {
-        score = 0;
-        scoreLabel.setText("Score: " + score);
+    @FXML
+    public void selectIslandReef() {
+        selectedIsland = "Reef Island";
+        System.out.println("Reef Island selected.");
+    }
 
+    @FXML
+    public void selectIslandDeepSea() {
+        selectedIsland = "Deep Sea Island";
+        System.out.println("Deep Sea Island selected.");
+    }
+
+    @FXML
+    private void selectDifficultyEasy() {
+        selectedDifficulty = "easy";
+        System.out.println("Easy");
+    }
+
+    @FXML
+    private void selectDifficultyMedium() {
+        selectedDifficulty = "medium";
+        System.out.println("Medium");
+    }
+
+    @FXML
+    private void selectDifficultyHard() {
+        selectedDifficulty = "hard";
+        System.out.println("Hard");
+    }
+
+    private void updateUI() {
+        if (healthLabel != null) {
+            healthLabel.setText("Health: " + health);
+        }
+        scoreLabel.setText("Score: " + score);
+        healthLabel.setText("Health: " + health);
+    }
+
+
+    public void startGame(String island, String difficulty) {
+        loadWordPool(island, difficulty);
+        score = 0;
+        health = 3;
+        updateUI();
 
         gameLoop = new Timeline(new KeyFrame(Duration.millis(2000), e -> spawnWord()));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -117,55 +103,89 @@ public class GameController {
     }
 
 
+    private void loadWordPool(String island, String difficulty) {
+        try (FileReader reader = new FileReader("data/" + island + ".json")) {
+            Gson gson = new Gson();
+            // Ensure the wordPool map is loaded based on the difficulty level
+            Map<String, List<String>> wordPools = gson.fromJson(reader, Map.class);
+
+            System.out.println("Loaded word pool from JSON: " + wordPools);
+
+            // Check if the word pool exists for the selected difficulty
+            if (wordPools != null && wordPools.containsKey(difficulty.toLowerCase())) {
+                wordPool = wordPools.get(difficulty.toLowerCase());
+                System.out.println("Words for " + difficulty + " difficulty: " + wordPool);
+            } else {
+                System.out.println("No words available for the selected difficulty: " + difficulty);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading word pool from JSON file.");
+        }
+    }
+
+
+
     private void spawnWord() {
+        if (wordPool == null || wordPool.isEmpty()) {
+            System.out.println("Word pool is empty. No words to spawn.");
+            return;
+        }
+
         String word = wordPool.get(random.nextInt(wordPool.size()));
         Text wordText = new Text(word);
-        wordText.setLayoutX(random.nextInt((int) gamePane.getWidth() - 100));
-        wordText.setLayoutY(0);
+        wordText.setLayoutX(random.nextInt((int) gamePane.getWidth() - 100));  // Random X position
+        wordText.setLayoutY(0);  // Start at the top of the pane
 
         gamePane.getChildren().add(wordText);
 
-
+        // Make the word fall down the screen
         Timeline fall = new Timeline(new KeyFrame(Duration.millis(50), event -> {
-            wordText.setLayoutY(wordText.getLayoutY() + 5);
+            wordText.setLayoutY(wordText.getLayoutY() + 5);  // Move word down by 5 pixels
             if (wordText.getLayoutY() > gamePane.getHeight()) {
                 gamePane.getChildren().remove(wordText);
+                wordMissed();  // Trigger when word reaches the bottom
             }
         }));
         fall.setCycleCount(Timeline.INDEFINITE);
         fall.play();
     }
 
+    private void wordMissed() {
+        health--;
+        updateUI();
+        if (health <= 0) {
+            endGame();
+        }
+    }
 
     private void checkInput() {
         String typedWord = inputField.getText().trim();
+        inputField.clear();
 
-        for (javafx.scene.Node node : new ArrayList<>(gamePane.getChildren())) {
-            if (node instanceof Text) {
-                Text wordText = (Text) node;
-                if (wordText.getText().equalsIgnoreCase(typedWord)) {
-                    score++;
-                    scoreLabel.setText("Score: " + score);
-                    gamePane.getChildren().remove(wordText);
-                    inputField.clear();
-                    break;
-                }
+
+        for (Text wordText : gamePane.getChildren().filtered(node -> node instanceof Text).toArray(Text[]::new)) {
+            if (wordText.getText().equalsIgnoreCase(typedWord)) {
+                gamePane.getChildren().remove(wordText);
+                score++;
+                updateUI();
+                return;
             }
         }
     }
 
+
+
     @FXML
-    private void endGame() {
-        if (currentUser != null) {
-            if (score > currentUser.getHighScore()) {
-                currentUser.setHighScore(score);
-                userDAO.saveUser(currentUser);
-            }
-            System.out.println("Game Over! Final score: " + score);
-            SceneManager.switchToLeaderboard(currentUser);
-        } else {
-            System.out.println("Error: No user logged in!");
+    public void endGame() {
+        if (gameLoop != null) {
+            gameLoop.stop();  // Stop the game loop
         }
-        SceneManager.switchToLeaderboard(currentUser);
+        if (currentUser != null && score > currentUser.getHighScore()) {
+            currentUser.setHighScore(score);
+            userDAO.saveUser(currentUser);  // Save updated score
+        }
+        // Switch to the leaderboard or any other screen you want
+        SceneManager.switchToLeaderboard();  // Assuming you switch to the leaderboard after ending the game
     }
 }
