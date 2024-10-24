@@ -94,20 +94,26 @@ public class GameController {
     }
 
 
+    private void updateUI() {
+        scoreLabel.setText("Score: " + score);
+        healthLabel.setText("Health: " + health);
+    }
+
+    // Load word pool from JSON file
     private void loadWordPool(String island, String difficulty) {
         try (FileReader reader = new FileReader("data/" + island + ".json")) {
-            Gson gson = new Gson();
             // Ensure the wordPool map is loaded based on the difficulty level
             Map<String, List<String>> wordPools = gson.fromJson(reader, Map.class);
 
             System.out.println("Loaded word pool from JSON: " + wordPools);
 
-            // Check if the word pool exists for the selected difficulty
+            // Debugger
             if (wordPools != null && wordPools.containsKey(difficulty.toLowerCase())) {
                 wordPool = wordPools.get(difficulty.toLowerCase());
                 System.out.println("Words for " + difficulty + " difficulty: " + wordPool);
             } else {
                 System.out.println("No words available for the selected difficulty: " + difficulty);
+                wordPool = null;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,8 +121,7 @@ public class GameController {
         }
     }
 
-
-
+    // Word spawner
     private void spawnWord() {
         if (wordPool == null || wordPool.isEmpty()) {
             System.out.println("Word pool is empty. No words to spawn.");
@@ -125,23 +130,24 @@ public class GameController {
 
         String word = wordPool.get(random.nextInt(wordPool.size()));
         Text wordText = new Text(word);
-        wordText.setLayoutX(random.nextInt((int) gamePane.getWidth() - 100));  // Random X position
-        wordText.setLayoutY(0);  // Start at the top of the pane
+        wordText.setLayoutX(random.nextInt((int) gamePane.getWidth() - 100));  // Random position
+        wordText.setLayoutY(0);  // Start at the top
 
         gamePane.getChildren().add(wordText);
 
-        // Make the word fall down the screen
-        Timeline fall = new Timeline(new KeyFrame(Duration.millis(50), event -> {
-            wordText.setLayoutY(wordText.getLayoutY() + 5);  // Move word down by 5 pixels
+        // Word falling animation (move slower to avoid health being depleted too fast)
+        Timeline fall = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+            wordText.setLayoutY(wordText.getLayoutY() + 2);  // Move word down by 2px per frame
             if (wordText.getLayoutY() > gamePane.getHeight()) {
                 gamePane.getChildren().remove(wordText);
-                wordMissed();  // Trigger when word reaches the bottom
+                wordMissed();  // If word reaches the bottom
             }
         }));
         fall.setCycleCount(Timeline.INDEFINITE);
         fall.play();
     }
 
+    // Handle when a word is missed
     private void wordMissed() {
         health--;
         updateUI();
@@ -150,33 +156,37 @@ public class GameController {
         }
     }
 
+    // Check input field and compare it with the falling word
     private void checkInput() {
         String typedWord = inputField.getText().trim();
         inputField.clear();
 
-
+        // Check if the typed word matches any falling word
         for (Text wordText : gamePane.getChildren().filtered(node -> node instanceof Text).toArray(Text[]::new)) {
             if (wordText.getText().equalsIgnoreCase(typedWord)) {
-                gamePane.getChildren().remove(wordText);
-                score++;
+                gamePane.getChildren().remove(wordText);  // Remove word if typed correctly
+                score++;  // Increment score
                 updateUI();
                 return;
             }
         }
     }
 
-
-
+    // End the game and save the score
     @FXML
-    public void endGame() {
+    private void endGame() {
         if (gameLoop != null) {
-            gameLoop.stop();  // Stop the game loop
+            gameLoop.stop();  // Stop the game loop to avoid conflicts during scene switch
         }
+
+        // Save high score if current score is higher
         if (currentUser != null && score > currentUser.getHighScore()) {
             currentUser.setHighScore(score);
             userDAO.saveUser(currentUser);  // Save updated score
         }
-        // Switch to the leaderboard or any other screen you want
-        SceneManager.switchToLeaderboard();  // Assuming you switch to the leaderboard after ending the game
+
+        SceneManager.switchToLeaderboard();  // Show the leaderboard
     }
+
+
 }
