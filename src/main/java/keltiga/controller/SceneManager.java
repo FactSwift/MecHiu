@@ -25,7 +25,7 @@ public class SceneManager {
         return currentUser;
     }
 
-
+    // Switch to the level selection screen
     public static void switchToLevelSelection() {
         try {
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/LevelSelection.fxml"));
@@ -37,24 +37,7 @@ public class SceneManager {
         }
     }
 
-
-    public static void startGame(String island, String difficulty) {
-        try {
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/GameLayout.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-
-
-            GameController controller = loader.getController();
-            controller.startGame(island, difficulty);
-
-            primaryStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
+    // Switch to the leaderboard screen
     public static void switchToLeaderboard() {
         try {
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/Leaderboard.fxml"));
@@ -66,13 +49,28 @@ public class SceneManager {
         }
     }
 
-
-
+    // Switch to user selection screen
     public static void switchToUserSelection() {
         try {
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/UserSelection.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void startGame(String island, String difficulty) {
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/GameLayout.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+
+            GameController controller = loader.getController();
+            controller.startGame(island, difficulty);
+
             primaryStage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
