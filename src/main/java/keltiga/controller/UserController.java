@@ -15,7 +15,6 @@ public class UserController {
     private UserDAO userDAO = new UserDAO();  // DAO to manage user data
     private User currentUser;
 
-
     @FXML
     private void loginUser() {
         String username = usernameField.getText().trim();
@@ -33,7 +32,6 @@ public class UserController {
             SceneManager.switchToLevelSelection();  // Proceed to level selection
         }
     }
-
 
     @FXML
     private void createNewUser() {
@@ -53,5 +51,24 @@ public class UserController {
         messageLabel.setText("New user created! Welcome, " + username + "!");
         SceneManager.setCurrentUser(currentUser);  // Set current user
         SceneManager.switchToLevelSelection();  // Proceed to level selection
+    }
+
+    @FXML
+    private void deleteUser() {
+        String username = usernameField.getText().trim();
+        if (username.isEmpty()) {
+            messageLabel.setText("Username cannot be empty!");
+            return;
+        }
+
+        User user = userDAO.getUser(username);
+        if (user == null) {
+            messageLabel.setText("User not found. Please try again.");
+            return;
+        }
+
+        userDAO.deleteUser(username);  // Remove the user
+        messageLabel.setText("User " + username + " has been deleted.");
+        usernameField.clear();  // Clear the input field after deletion
     }
 }
