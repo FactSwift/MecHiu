@@ -44,13 +44,11 @@ public class GameController {
         inputField.setOnAction(event -> checkInput());
     }
 
-
     @FXML
-    public void selectIslandCoral() {
-        selectedIsland = "Coral Island";
-        System.out.println("Coral Island selected.");
+    public void selectIslandJava() {
+        selectedIsland = "Java Island";
+        System.out.println("Java Island selected.");
     }
-
 
     @FXML
     public void selectIslandReef() {
@@ -82,14 +80,6 @@ public class GameController {
         System.out.println("Hard");
     }
 
-    private void updateUI() {
-        if (healthLabel != null) {
-            healthLabel.setText("Health: " + health);
-        }
-        scoreLabel.setText("Score: " + score);
-        healthLabel.setText("Health: " + health);
-    }
-
 
     public void startGame(String island, String difficulty) {
         loadWordPool(island, difficulty);
@@ -97,7 +87,8 @@ public class GameController {
         health = 3;
         updateUI();
 
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(2000), e -> spawnWord()));
+        // Game loop for spawning words at a slower pace (words per devtik)
+        gameLoop = new Timeline(new KeyFrame(Duration.seconds(4), e -> spawnWord()));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
     }
