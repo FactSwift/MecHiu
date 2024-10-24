@@ -28,6 +28,11 @@ public class UserDAO {
         return users.get(username);
     }
 
+    public void deleteUser(String username) {
+        users.remove(username);
+        saveUsers();  // Save the updated users list to the file
+    }
+
     public void saveUsers() {
         Gson gson = new Gson();
         try (Writer writer = new FileWriter(USER_FILE)) {
