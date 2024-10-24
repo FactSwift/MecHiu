@@ -19,28 +19,23 @@ public class LeaderboardController {
     @FXML private TableColumn<User, String> usernameColumn;
     @FXML private TableColumn<User, Integer> highScoreColumn;
 
-    private UserDAO userDAO = new UserDAO();  // DAO to manage user data
+    private UserDAO userDAO = new UserDAO();
     private User currentUser;
 
     @FXML
     public void initialize() {
-        // Set up columns for TableView
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         highScoreColumn.setCellValueFactory(new PropertyValueFactory<>("highScore"));
         loadLeaderboard();
     }
 
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-    }
-
-
+    // Load the leaderboard data
     private void loadLeaderboard() {
         Map<String, User> usersMap = userDAO.getAllUsers();
         List<User> userList = usersMap.values().stream().collect(Collectors.toList());
 
         ObservableList<User> observableUserList = FXCollections.observableArrayList(userList);
-        leaderboardTable.setItems(observableUserList);
+        leaderboardTable.setItems(observableUserList);  // Set leaderboard data
     }
 
     @FXML
