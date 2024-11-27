@@ -9,7 +9,7 @@ public class LevelSelectionController {
 
     @FXML private Label userLabel;
 
-    private String selectedIsland = "Coral Island";
+    private String selectedIsland = "Java Island";
     private String selectedDifficulty = "Easy";
     private User currentUser;
 
@@ -33,8 +33,8 @@ public class LevelSelectionController {
 
 
     @FXML
-    private void selectCoralIsland() {
-        selectedIsland = "Coral Island";
+    private void selectJavaIsland() {
+        selectedIsland = "Java Island";
     }
 
     @FXML

@@ -15,7 +15,7 @@
 
 
         <Label layoutX="50" layoutY="100" text="Select an Island:"/>
-        <Button layoutX="150" layoutY="130" text="Coral Island" onAction="#selectCoralIsland"/>
+        <Button layoutX="150" layoutY="130" text="Java Island" onAction="#selectJavaIsland"/>
         <Button layoutX="250" layoutY="130" text="Reef Island" onAction="#selectReefIsland"/>
         <Button layoutX="350" layoutY="130" text="Deep Sea Island" onAction="#selectDeepSeaIsland"/>
 

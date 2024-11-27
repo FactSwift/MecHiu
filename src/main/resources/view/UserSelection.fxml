@@ -13,10 +13,9 @@
 
         <TextField fx:id="usernameField" layoutX="300" layoutY="200" promptText="Enter Username"/>
 
-
         <Button layoutX="300" layoutY="250" text="Login" onAction="#loginUser"/>
         <Button layoutX="400" layoutY="250" text="Create New User" onAction="#createNewUser"/>
-
+        <Button layoutX="500" layoutY="250" text="Delete User" onAction="#deleteUser"/>
 
         <Label fx:id="messageLabel" layoutX="300" layoutY="300" text=""/>
     </children>

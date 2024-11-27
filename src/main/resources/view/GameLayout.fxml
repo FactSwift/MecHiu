@@ -31,7 +31,7 @@
         <Button layoutX="600" layoutY="550" text="End Game" onAction="#endGame"/>
 
 
-        <Button layoutX="50" layoutY="50" text="Coral Island" onAction="#selectIslandCoral"/>
+        <Button layoutX="50" layoutY="50" text="Java Island" onAction="#selectIslandJava"/>
         <Button layoutX="200" layoutY="50" text="Reef Island" onAction="#selectIslandReef"/>
         <Button layoutX="350" layoutY="50" text="Deep Sea Island" onAction="#selectIslandDeepSea"/>
 

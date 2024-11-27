@@ -6,20 +6,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="keltiga.controller.LeaderboardController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.LeaderboardController">
     <children>
 
-        <TableView fx:id="leaderboardTable" layoutX="100" layoutY="100" prefWidth="600" prefHeight="400">
+        <TableView fx:id="leaderboardTable" layoutY="80.0" prefHeight="400" prefWidth="600">
             <columns>
-                <TableColumn fx:id="usernameColumn" text="Username" prefWidth="300"/>
-                <TableColumn fx:id="highScoreColumn" text="High Score" prefWidth="300"/>
+                <TableColumn fx:id="highScoreColumn" prefWidth="300" text="High Score" />
+                <TableColumn fx:id="usernameColumn" prefWidth="300" text="Username" />
             </columns>
         </TableView>
 
 
-        <Button layoutX="350" layoutY="520" text="Next" onAction="#goToLevelSelection"/>
+        <Button layoutX="350" layoutY="520" onAction="#goToLevelSelection" text="Next" />
     </children>
 </AnchorPane>
-

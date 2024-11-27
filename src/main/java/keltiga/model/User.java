@@ -10,22 +10,22 @@ public class User {
         this.highScore = 0; // Default high score
     }
 
-    // Getter for username
+    // Getter
     public String getUsername() {
         return username;
     }
 
-    // Setter for username (if needed)
+    // Setter
     public void setUsername(String username) {
         this.username = username;
     }
 
-    // Getter for highScore
+    // Getter
     public int getHighScore() {
         return highScore;
     }
 
-    // Setter for highScore
+    // Setter
     public void setHighScore(int highScore) {
         this.highScore = highScore;
     }
