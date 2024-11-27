@@ -15,17 +15,21 @@ import com.google.gson.Gson;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GameController {
 
-    @FXML private TextField inputField;
-    @FXML private Label scoreLabel;
-    @FXML private Label healthLabel;
-    @FXML private Pane gamePane;
-    @FXML private Button startButton;
+    @FXML
+    private TextField inputField;
+    @FXML
+    private Label scoreLabel;
+    @FXML
+    private Label healthLabel;
+    @FXML
+    private Pane gamePane;
+    @FXML
+    private Button startButton;
 
     private int score = 0;
     private int health = 3;
@@ -38,19 +42,20 @@ public class GameController {
     private UserDAO userDAO = new UserDAO();
     private Gson gson = new Gson();
 
+    // Map to store word creation times
+    private Map<String, Long> wordCreationTimes = new ConcurrentHashMap<>();
+
     @FXML
     public void initialize() {
         this.currentUser = SceneManager.getCurrentUser();
         inputField.setOnAction(event -> checkInput());
     }
 
-
     @FXML
     public void selectIslandCoral() {
         selectedIsland = "Coral Island";
         System.out.println("Coral Island selected.");
     }
-
 
     @FXML
     public void selectIslandReef() {
@@ -87,9 +92,7 @@ public class GameController {
             healthLabel.setText("Health: " + health);
         }
         scoreLabel.setText("Score: " + score);
-        healthLabel.setText("Health: " + health);
     }
-
 
     public void startGame(String island, String difficulty) {
         loadWordPool(island, difficulty);
@@ -102,19 +105,12 @@ public class GameController {
         gameLoop.play();
     }
 
-
     private void loadWordPool(String island, String difficulty) {
         try (FileReader reader = new FileReader("data/" + island + ".json")) {
-            Gson gson = new Gson();
-            // Ensure the wordPool map is loaded based on the difficulty level
             Map<String, List<String>> wordPools = gson.fromJson(reader, Map.class);
 
-            System.out.println("Loaded word pool from JSON: " + wordPools);
-
-            // Check if the word pool exists for the selected difficulty
             if (wordPools != null && wordPools.containsKey(difficulty.toLowerCase())) {
                 wordPool = wordPools.get(difficulty.toLowerCase());
-                System.out.println("Words for " + difficulty + " difficulty: " + wordPool);
             } else {
                 System.out.println("No words available for the selected difficulty: " + difficulty);
             }
@@ -124,8 +120,6 @@ public class GameController {
         }
     }
 
-
-
     private void spawnWord() {
         if (wordPool == null || wordPool.isEmpty()) {
             System.out.println("Word pool is empty. No words to spawn.");
@@ -134,26 +128,33 @@ public class GameController {
 
         String word = wordPool.get(random.nextInt(wordPool.size()));
         Text wordText = new Text(word);
-        wordText.setLayoutX(random.nextInt((int) gamePane.getWidth() - 100));  // Random X position
-        wordText.setLayoutY(0);  // Start at the top of the pane
+        wordText.setLayoutX(random.nextInt((int) gamePane.getWidth() - 100));
+        wordText.setLayoutY(0);
+
+        // Record the creation time of the word
+        wordCreationTimes.put(word, System.currentTimeMillis());
 
         gamePane.getChildren().add(wordText);
 
-        // Make the word fall down the screen
         Timeline fall = new Timeline(new KeyFrame(Duration.millis(50), event -> {
-            wordText.setLayoutY(wordText.getLayoutY() + 5);  // Move word down by 5 pixels
-            if (wordText.getLayoutY() > gamePane.getHeight()) {
+            wordText.setLayoutY(wordText.getLayoutY() + 5);
+
+            if (wordText.getLayoutY() >= gamePane.getHeight()) {
                 gamePane.getChildren().remove(wordText);
-                wordMissed();  // Trigger when word reaches the bottom
+                wordMissed(word);
             }
         }));
         fall.setCycleCount(Timeline.INDEFINITE);
         fall.play();
     }
 
-    private void wordMissed() {
+    private void wordMissed(String word) {
         health--;
         updateUI();
+
+        // Remove the word from the map to avoid memory leaks
+        wordCreationTimes.remove(word);
+
         if (health <= 0) {
             endGame();
         }
@@ -163,29 +164,35 @@ public class GameController {
         String typedWord = inputField.getText().trim();
         inputField.clear();
 
-
         for (Text wordText : gamePane.getChildren().filtered(node -> node instanceof Text).toArray(Text[]::new)) {
             if (wordText.getText().equalsIgnoreCase(typedWord)) {
                 gamePane.getChildren().remove(wordText);
-                score++;
+
+                // Calculate the score based on the time taken
+                Long creationTime = wordCreationTimes.remove(wordText.getText());
+                if (creationTime != null) {
+                    long elapsedTime = System.currentTimeMillis() - creationTime;
+
+                    // Scale the score: 100 - (elapsed time in seconds), minimum 1
+                    int wordScore = Math.max(1, 100 - (int) (elapsedTime / 100));
+                    score += wordScore;
+                }
+
                 updateUI();
                 return;
             }
         }
     }
 
-
-
     @FXML
     public void endGame() {
         if (gameLoop != null) {
-            gameLoop.stop();  // Stop the game loop
+            gameLoop.stop();
         }
         if (currentUser != null && score > currentUser.getHighScore()) {
             currentUser.setHighScore(score);
-            userDAO.saveUser(currentUser);  // Save updated score
+            userDAO.saveUser(currentUser);
         }
-        // Switch to the leaderboard or any other screen you want
-        SceneManager.switchToLeaderboard();  // Assuming you switch to the leaderboard after ending the game
+        SceneManager.switchToLeaderboard();
     }
 }
