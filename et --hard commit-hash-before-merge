@@ -1,0 +1,124 @@
+[33mcommit 27fa4dc0cea1bc08002b09cd95783d49e5ccf795[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: fc5036e cdca333
+Author: Faris Fathan Asradinto <fathandinto@gmail.com>
+Date:   Thu Nov 28 01:57:18 2024 +0700
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       src/main/java/keltiga/controller/GameController.java
+
+[33mcommit fc5036e57a7b259aa897a49ad36dd0943b44be34[m
+Author: Faris Fathan Asradinto <fathandinto@gmail.com>
+Date:   Wed Nov 27 22:39:12 2024 +0700
+
+    Penambahan logika untuk nilai skor yang berbeda. Rentang nilai skor adalah dari 1-100, dimana 1 untuk waktu terlambat kata berhasil diketik dan 100 waktu paling tercepat kata diketik.
+
+[33mcommit cdca33369d38afc4cbf8a6d6492e0c3227d10e2c[m
+Author: Zaidan Ahmad <1fact28@gmail.com>
+Date:   Thu Oct 24 09:14:27 2024 +0700
+
+    Update UTS Final
+
+[33mcommit 1edf5af47d39b61548af25382f28e9b927324f62[m
+Author: Zaidan Ahmad <1fact28@gmail.com>
+Date:   Thu Oct 24 09:07:50 2024 +0700
+
+    Update UTS Final
+
+[33mcommit 8e6c5b689f9643e40ff224629ab29d81cce5a9e9[m
+Author: NinaHerlin <ninaherlinaa31@gmail.com>
+Date:   Thu Oct 24 09:08:36 2024 +0700
+
+    Update_UTS_Nina
+
+[33mcommit 3d179b6b22c3950e31609db05871b4068183dfa9[m
+Author: Edgardaltamerano <148215791+Edgardaltamerano@users.noreply.github.com>
+Date:   Thu Oct 24 09:02:00 2024 +0700
+
+    GameController.java
+
+[33mcommit 52cbbc9d22b60b7a599978ec6ca9520e539c3345[m
+Author: Excel <148018349+valerianharyanto@users.noreply.github.com>
+Date:   Thu Oct 24 09:00:44 2024 +0700
+
+    GameController.java
+
+[33mcommit 18356279de7268a0a4a947746706f90c6dbb71df[m
+Author: Excel <148018349+valerianharyanto@users.noreply.github.com>
+Date:   Thu Oct 24 08:55:56 2024 +0700
+
+     GameController.java
+
+[33mcommit c3bc8686ed8d8ddc78882a4c9ca77da11d3a62c9[m
+Author: Rifki Destrizal Nugraha <148042421+deeztrzl@users.noreply.github.com>
+Date:   Thu Oct 24 08:49:28 2024 +0700
+
+    Update UTS Rifki
+
+[33mcommit cc641c3904dd6012b1456a110458b33c3dfe4d85[m
+Author: ivaaslm <148344205+ivaaslm@users.noreply.github.com>
+Date:   Thu Oct 24 08:39:27 2024 +0700
+
+    Update UTS Iva
+
+[33mcommit 4eef2934aa42bbcdc0ceb5502f6ad7174b11072f[m
+Author: Zaidan Ahmad <58198569+FactSwift@users.noreply.github.com>
+Date:   Thu Oct 24 08:32:54 2024 +0700
+
+    Update UTS Zaidan
+
+[33mcommit 26710988da5f86b003abd47b229403337845af9f[m
+Author: Faris Fathan Asradinto <148094806+farisfathan30042005@users.noreply.github.com>
+Date:   Thu Oct 24 08:17:10 2024 +0700
+
+    Update_UTS_Faris
+
+[33mcommit 0efe32c0cb32f3ba8516ccf126bc4404a9f7080b[m
+Author: NinaHerlin <ninaherlinaa31@gmail.com>
+Date:   Thu Oct 24 08:14:45 2024 +0700
+
+    Update_UTS_Nina
+
+[33mcommit 90c7a6d2bff856c02512e70f3cde6faf8ec8931b[m
+Author: Zaidan Ahmad <1fact28@gmail.com>
+Date:   Thu Oct 24 01:55:34 2024 +0700
+
+    Fixed Database System
+
+[33mcommit a3c7b8fa7104905fa9c1b61a6ae46e08a496b029[m
+Author: Zaidan Ahmad <1fact28@gmail.com>
+Date:   Thu Oct 24 01:52:35 2024 +0700
+
+    Fixed Database System
+
+[33mcommit 247c96b022b506aae298097b23ebd0b3997e1ed5[m
+Merge: 6311ba6 8f22f09
+Author: Zaidan Ahmad <1fact28@gmail.com>
+Date:   Tue Oct 22 15:49:23 2024 +0700
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 6311ba6af63b11ee48e18d320dbe1d88eef11eca[m
+Author: Zaidan Ahmad <58198569+FactSwift@users.noreply.github.com>
+Date:   Mon Oct 21 13:56:56 2024 +0700
+
+    Add LICENSE and README
+
+[33mcommit 8f22f097f437707c1bf16db2cbad1fb978d34b63[m
+Author: Zaidan Ahmad <58198569+FactSwift@users.noreply.github.com>
+Date:   Mon Oct 21 13:56:56 2024 +0700
+
+    Add LICENSE and README
+
+[33mcommit 08b350104776c4619eee8140bda6a0ab41d683cc[m
+Author: Zaidan Ahmad <1fact28@gmail.com>
+Date:   Mon Oct 21 12:58:35 2024 +0700
+
+    Prototyping-UTS
+
+[33mcommit bf71faeaec01556c57332e83e41685a4af4bf233[m
+Author: Zaidan Ahmad <1fact28@gmail.com>
+Date:   Fri Oct 18 15:31:23 2024 +0700
+
+    Prototype

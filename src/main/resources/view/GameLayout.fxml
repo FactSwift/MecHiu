@@ -1,44 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="keltiga.controller.GameController">
+<AnchorPane prefHeight="653.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.GameController">
     <children>
+      <ImageView fitHeight="715.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@BackgroundMain.png" />
+         </image>
+      </ImageView>
 
-        <Pane fx:id="gamePane" layoutY="100" prefHeight="600" prefWidth="800"/>
-
-
-        <TextField fx:id="inputField" layoutX="300" layoutY="550" promptText="Type here..."/>
-
-
-        <Label fx:id="scoreLabel" layoutX="20" layoutY="20" text="Score: 0"/>
-
-
-        <Label fx:id="stageLabel" layoutX="300" layoutY="20" text="Select an Island and Difficulty"/>
-
-
-        <Label fx:id="healthLabel" layoutX="50" layoutY="70" text="Health: 3"/>
+        <Pane fx:id="gamePane" layoutY="100" opacity="0.58" prefHeight="515.0" prefWidth="933.0" style="-fx-background-color: white;" />
+      <ImageView fitHeight="292.0" fitWidth="175.0" layoutX="-1.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Orang.png" />
+         </image>
+      </ImageView>
 
 
-        <Button fx:id="startButton" layoutX="500" layoutY="550" text="Start Game"/>
-
-        <Button layoutX="600" layoutY="550" text="End Game" onAction="#endGame"/>
-
-
-        <Button layoutX="50" layoutY="50" text="Java Island" onAction="#selectIslandJava"/>
-        <Button layoutX="200" layoutY="50" text="Reef Island" onAction="#selectIslandReef"/>
-        <Button layoutX="350" layoutY="50" text="Deep Sea Island" onAction="#selectIslandDeepSea"/>
+        <TextField fx:id="inputField" layoutX="362.0" layoutY="637.0" prefHeight="32.0" prefWidth="217.0" promptText="Type here..." style="-fx-background-color: white;" />
+      <ImageView fitHeight="25.0" fitWidth="39.0" layoutX="127.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Hearth.png" />
+         </image>
+      </ImageView>
 
 
-        <Button layoutX="600" layoutY="50" text="Easy" onAction="#selectDifficultyEasy"/>
-        <Button layoutX="700" layoutY="50" text="Medium" onAction="#selectDifficultyMedium"/>
-        <Button layoutX="800" layoutY="50" text="Hard" onAction="#selectDifficultyHard"/>
+        <Label fx:id="scoreLabel" layoutX="174.0" layoutY="58.0" prefHeight="31.0" prefWidth="127.0" style="-fx-background-color: #f6f6df;" text="  Score: 0" textFill="#d4811b">
+         <font>
+            <Font size="21.0" />
+         </font></Label>
+
+
+        <Label fx:id="healthLabel" layoutX="34.0" layoutY="56.0" text="Health: 3" textFill="#f63e3e">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font></Label>
+
+
+        <Button fx:id="startButton" layoutX="580.0" layoutY="629.0" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="58.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Play2.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+
+        <Button layoutX="664.0" layoutY="630.0" onAction="#endGame" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="45.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Endgame.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
     </children>
 </AnchorPane>
-
