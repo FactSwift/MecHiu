@@ -7,20 +7,32 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.UserController">
+<AnchorPane prefHeight="445.0" prefWidth="791.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.UserController">
     <children>
-      <ImageView fitHeight="324.0" fitWidth="591.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="445.0" fitWidth="791.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Login.png" />
          </image>
       </ImageView>
 
-        <TextField fx:id="usernameField" layoutX="225.0" layoutY="111.0" promptText="Enter Username" style="-fx-background-color: white;" />
+        <TextField fx:id="usernameField" layoutX="318.0" layoutY="228.0" prefHeight="34.0" prefWidth="183.0" promptText="Enter Username" style="-fx-background-color: white;" />
 
-        <Button layoutX="277.0" layoutY="162.0" onAction="#loginUser" style="-fx-background-color: white;" text="Login" textFill="#0f6cc2" />
-        <Button layoutX="248.0" layoutY="195.0" onAction="#createNewUser" style="-fx-background-color: white;" text="Create New User" textFill="#0f6cc2" />
-        <Button layoutX="261.0" layoutY="230.0" onAction="#deleteUser" style="-fx-background-color: white;" text="Delete User" textFill="#0f6cc2" />
+        <Button layoutX="353.0" layoutY="277.0" onAction="#loginUser" style="-fx-background-color: transparent;" textFill="#0f6cc2">
+         <graphic>
+            <ImageView fitHeight="56.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Loginbutton.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+        <Button layoutX="300.0" layoutY="329.0" onAction="#createNewUser" style="-fx-background-color: white;" text="Create New User" textFill="#0f6cc2" />
+        <Button layoutX="448.0" layoutY="329.0" onAction="#deleteUser" style="-fx-background-color: white;" text="Delete User" textFill="#0f6cc2" />
 
         <Label fx:id="messageLabel" layoutX="300" layoutY="300" text="" />
+      <ImageView fitHeight="162.0" fitWidth="491.0" layoutX="179.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Selamatdatang.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>
