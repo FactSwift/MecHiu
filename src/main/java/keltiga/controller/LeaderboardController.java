@@ -1,5 +1,9 @@
 package keltiga.controller;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,10 +12,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import keltiga.dao.UserDAO;
 import keltiga.model.User;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class LeaderboardController {
 
@@ -40,6 +40,6 @@ public class LeaderboardController {
 
     @FXML
     private void goToLevelSelection() {
-        SceneManager.switchToLevelSelection();
+        SceneManager.switchToHome();
     }
 }

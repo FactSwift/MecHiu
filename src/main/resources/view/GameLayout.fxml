@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="653.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.GameController">
+<AnchorPane prefHeight="653.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.GameController">
     <children>
       <ImageView fitHeight="715.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@BackgroundMain.png" />
+            <Image url="@Image/BackgroundMain.png" />
          </image>
       </ImageView>
 
         <Pane fx:id="gamePane" layoutY="100" opacity="0.58" prefHeight="515.0" prefWidth="933.0" style="-fx-background-color: white;" />
       <ImageView fitHeight="292.0" fitWidth="175.0" layoutX="-1.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Orang.png" />
+            <Image url="@Image/Orang.png" />
          </image>
       </ImageView>
 
@@ -28,7 +28,7 @@
         <TextField fx:id="inputField" layoutX="362.0" layoutY="637.0" prefHeight="32.0" prefWidth="217.0" promptText="Type here..." style="-fx-background-color: white;" />
       <ImageView fitHeight="25.0" fitWidth="39.0" layoutX="127.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Hearth.png" />
+            <Image url="@Image/Hearth.png" />
          </image>
       </ImageView>
 
@@ -49,7 +49,7 @@
          <graphic>
             <ImageView fitHeight="58.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Play2.png" />
+                  <Image url="@Image/Play2.png" />
                </image>
             </ImageView>
          </graphic></Button>
@@ -58,7 +58,7 @@
          <graphic>
             <ImageView fitHeight="45.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Endgame.png" />
+                  <Image url="@Image/Endgame.png" />
                </image>
             </ImageView>
          </graphic></Button>

@@ -28,7 +28,10 @@ public class GameController {
     @FXML private Label healthLabel;
     @FXML private Pane gamePane;
     @FXML private Button startButton;
-
+    @FXML private Button javaIslandButton; 
+    @FXML private Button reefIslandButton; 
+    @FXML private Button deepIslandButton; 
+    
     private int score = 0;
     private int health = 3;
     private String selectedIsland;
@@ -84,7 +87,7 @@ public class GameController {
         selectedDifficulty = "hard";
         System.out.println("Hard");
     }
-
+    
     private void updateUI() {
         if (healthLabel != null) {
             healthLabel.setText("Health: " + health);

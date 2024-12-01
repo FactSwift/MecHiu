@@ -1,12 +1,12 @@
 package keltiga.controller;
 
+import java.io.IOException;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import keltiga.model.User;
-
-import java.io.IOException;
 
 public class SceneManager {
 
@@ -25,10 +25,21 @@ public class SceneManager {
         return currentUser;
     }
 
-    // Switch to the level selection screen
-    public static void switchToLevelSelection() {
+    static void switchToMapIsland() {
         try {
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/LevelSelection.fxml"));
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/MapIsland.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Switch to the level selection screen
+    public static void switchToHome() {
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/Home.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -76,4 +87,5 @@ public class SceneManager {
             e.printStackTrace();
         }
     }
+
 }
