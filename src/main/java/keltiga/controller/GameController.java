@@ -13,7 +13,10 @@ import javafx.util.Duration;
 import keltiga.dao.UserDAO;
 import keltiga.model.User;
 import com.google.gson.Gson;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,6 +34,7 @@ public class GameController {
     @FXML private Button javaIslandButton; 
     @FXML private Button reefIslandButton; 
     @FXML private Button deepIslandButton; 
+    @FXML private ImageView backgroundImage;
     
     private int score = 0;
     private int health = 3;
@@ -97,6 +101,25 @@ public class GameController {
     }
 
     public void startGame(String island, String difficulty) {
+        // Set background based on selected island
+        String backgroundPath;
+        switch (island) {
+            case "Java Island":
+                backgroundPath = "/view/Image/BackgroundJava.png";
+                break;
+            case "Reef Island":
+                backgroundPath = "/view/Image/BackgroundReef.png";
+                break;
+            case "Deep Sea Island":
+                backgroundPath = "/view/Image/BackgroundDeep.png";
+                break;
+            default:
+                backgroundPath = "/view/Image/BackgroundJava.png";
+                break;
+        }
+        
+        backgroundImage.setImage(new Image(getClass().getResourceAsStream(backgroundPath)));
+        
         loadWordPool(island, difficulty);
         score = 0;
         health = 3;

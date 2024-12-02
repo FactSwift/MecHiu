@@ -11,9 +11,9 @@
 
 <AnchorPane prefHeight="653.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.GameController">
     <children>
-      <ImageView fitHeight="715.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="backgroundImage" fitHeight="715.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Image/BackgroundMain.png" />
+            <Image url="@Image/BackgroundJava.png" />
          </image>
       </ImageView>
 
