@@ -37,6 +37,20 @@
 
 /* button ketiga */
 
+.table-view {
+    -fx-background-color: rgba(255, 255, 255, 0.5); /* Warna biru tua (navy) dengan opasitas 20% */
+    -fx-border-color: transparent;            /* Menghapus garis pinggir tabel */
+}
+
+.table-column-header {
+    -fx-background-color: rgba(255, 255, 255, 0.5); /* Warna biru tua untuk header */
+    -fx-border-color: transparent;            /* Menghapus garis pinggir header */
+}
+
+.table-row-cell {
+    -fx-background-color: transparent; /* Membuat sel tabel transparan */
+}
+
 .button-third {
     -fx-background-color: transparent;
     -fx-transition: all 0.2s ease; /* Transisi untuk efek hover */

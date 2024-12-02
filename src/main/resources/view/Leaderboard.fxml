@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.LeaderboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.LeaderboardController">
     <children>
-
-        <TableView fx:id="leaderboardTable" layoutY="80.0" prefHeight="400" prefWidth="600">
+        <ImageView fitHeight="559.0" fitWidth="969.0">
+            <image>
+                <Image url="@Image/bgleaderboard.jpg" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="229.0" fitWidth="409.0" layoutX="280.0" layoutY="-46.0">
+            <image>
+                <Image url="@Image/leaderboard.png" />
+            </image>
+        </ImageView>
+        <TableView fx:id="leaderboardTable" layoutX="185.0" layoutY="112.0" prefHeight="400" prefWidth="600" stylesheets="@StyleButton.css">
             <columns>
-                <TableColumn fx:id="highScoreColumn" prefWidth="300" text="High Score" />
-                <TableColumn fx:id="usernameColumn" prefWidth="300" text="Username" />
+                <TableColumn fx:id="highScoreColumn" prefWidth="305.0" text="High Score" />
+                <TableColumn fx:id="usernameColumn" prefWidth="294.0" text="Username" />
             </columns>
         </TableView>
-
-
-        <Button layoutX="350" layoutY="520" onAction="#goToLevelSelection" text="Next" />
+        <Button fx:id="playButton" layoutX="721.0" layoutY="368.0" onAction="#goToLevelSelection" style="-fx-background-color: transparent;" stylesheets="@StyleButton.css">
+            <graphic>
+                <ImageView fitHeight="183.0" fitWidth="315" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Image/homebutton.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
     </children>
 </AnchorPane>
