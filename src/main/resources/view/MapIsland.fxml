@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="546.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.LevelSelectionController">
+    <children>
+        <ImageView fitHeight="546.0" fitWidth="969.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Image/Map.png" />
+            </image>
+        </ImageView>
+
+        <!-- User Profile Container -->
+        <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#36AEC6" height="70.0" 
+                   layoutX="699.0" layoutY="20.0" stroke="#2D91A6" 
+                   strokeType="INSIDE" strokeWidth="2.0" width="250.0" opacity="0.95"/>
+        
+        <VBox layoutX="709.0" layoutY="25.0" spacing="5">
+            <Label text="CURRENT PLAYER" textFill="#FFFFFF" 
+                   style="-fx-font-weight: bold; -fx-font-size: 12;">
+            </Label>
+            
+            <Label fx:id="userLabel" style="-fx-background-color: #2D91A6; 
+                   -fx-padding: 5 15; -fx-background-radius: 5;" 
+                   textFill="WHITE" prefWidth="180">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+        </VBox>
+
+        <Button fx:id="javaIslandButton" layoutX="86.0" layoutY="35.0" onAction="#selectJavaIsland" 
+                prefHeight="114.0" prefWidth="108.0" styleClass="button-third" 
+                stylesheets="@StyleButton.css" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="97.2" fitWidth="121.2" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Image/PinSumatra.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <Button fx:id="reefIslandButton" layoutX="212.0" layoutY="242.7" onAction="#selectReefIsland" 
+                prefHeight="114.0" prefWidth="108.0" styleClass="button-third" 
+                stylesheets="@StyleButton.css" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="97.2" fitWidth="121.2" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Image/PinJawa.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <Button fx:id="deepIslandButton" layoutX="806.0" layoutY="169.0" onAction="#selectDeepSeaIsland" 
+                prefHeight="85.0" prefWidth="73.0" styleClass="button-third" 
+                stylesheets="@StyleButton.css" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="97.2" fitWidth="121.2" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Image/PinPapua.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <Button layoutX="414.0" layoutY="410.0" onAction="#startGame" 
+                prefHeight="82.0" prefWidth="153.0" style="-fx-background-color: transparent;" 
+                stylesheets="@StyleButton.css">
+            <graphic>
+                <ImageView fitHeight="100.0" fitWidth="166.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Image/Play2.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </children>
+</AnchorPane>
