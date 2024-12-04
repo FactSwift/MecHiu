@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -16,7 +18,7 @@
                 <Image url="@Image/leaderboard.png" />
             </image>
         </ImageView>
-        <TableView fx:id="leaderboardTable" layoutX="185.0" layoutY="112.0" prefHeight="400" prefWidth="600" stylesheets="@StyleButton.css">
+        <TableView fx:id="leaderboardTable" layoutX="185.0" layoutY="112.0" prefHeight="361.0" prefWidth="600" stylesheets="@StyleButton.css">
             <columns>
                 <TableColumn fx:id="highScoreColumn" prefWidth="305.0" text="High Score" />
                 <TableColumn fx:id="usernameColumn" prefWidth="294.0" text="Username" />
@@ -31,5 +33,10 @@
                 </ImageView>
             </graphic>
         </Button>
+      <TextArea fx:id="currentPlayerRank" layoutX="185.0" layoutY="485.0" prefHeight="39.0" prefWidth="600.0">
+         <font>
+            <Font name="Arial Bold Italic" size="18.0" />
+         </font>
+      </TextArea>
     </children>
 </AnchorPane>
