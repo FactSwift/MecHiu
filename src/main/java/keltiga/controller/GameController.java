@@ -15,8 +15,10 @@ import keltiga.model.User;
 import com.google.gson.Gson;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.layout.StackPane;
 
-import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -157,29 +159,41 @@ public class GameController {
 
         String word = wordPool.get(random.nextInt(wordPool.size()));
         Text wordText = new Text(word);
-        wordText.setStyle("-fx-font-size: 16px; -fx-fill: black;"); // Set font size and text color
-
-        // Wrap the text in a TextFlow for background support
+        wordText.setStyle("-fx-font-size: 16px; -fx-fill: black; -fx-font-weight: bold;");
         TextFlow wordWrapper = new TextFlow(wordText);
-        wordWrapper.setStyle("-fx-background-color: white; -fx-padding: 6px; -fx-border-color: black; -fx-border-radius: 5px;");
-        wordWrapper.setLayoutX(random.nextInt((int) gamePane.getWidth() - 100)); // Random X position
-        wordWrapper.setLayoutY(0); // Start at the top of the pane
+        wordWrapper.setStyle("-fx-text-alignment: center;");
+        
+        // Tambahkan background ikan
+        ImageView fishImage = new ImageView(new Image(getClass().getResourceAsStream("/view/Image/ikan1.png")));
+        fishImage.setFitWidth(100);
+        fishImage.setFitHeight(50);
+        
+        // Buat container untuk menggabungkan ikan dan text
+        StackPane container = new StackPane(fishImage, wordWrapper);
+        StackPane.setAlignment(wordWrapper, Pos.CENTER); // Posisikan text di tengah
+        container.setAlignment(Pos.CENTER); // Posisikan semua elemen di tengah container
+        
+        // Atur margin untuk text (vertical 12.5, horizontal 10)
+        StackPane.setMargin(wordWrapper, new Insets(12.5, 10, 0, 0)); // Menambahkan margin left 10
+        
+        container.setLayoutX(gamePane.getWidth());
+        container.setLayoutY(random.nextInt((int) (gamePane.getHeight() - 100)));
 
-        gamePane.getChildren().add(wordWrapper);
-        wordSpawnTimes.put(wordWrapper, System.currentTimeMillis()); // Store spawn time
+        gamePane.getChildren().add(container);
+        wordSpawnTimes.put(wordWrapper, System.currentTimeMillis());
 
-        Timeline fall = new Timeline(new KeyFrame(Duration.millis(50), event -> {
-            wordWrapper.setLayoutY(wordWrapper.getLayoutY() + 5); // Move word down by 5 pixels
-            if (wordWrapper.getLayoutY() > gamePane.getHeight()) {
-                if (gamePane.getChildren().contains(wordWrapper)) { // Avoid multiple processing
-                    gamePane.getChildren().remove(wordWrapper);
+        Timeline movement = new Timeline(new KeyFrame(Duration.millis(50), event -> {
+            container.setLayoutX(container.getLayoutX() - 5);
+            if (container.getLayoutX() < -100) {
+                if (gamePane.getChildren().contains(container)) {
+                    gamePane.getChildren().remove(container);
                     wordSpawnTimes.remove(wordWrapper);
                     wordMissed();
                 }
             }
         }));
-        fall.setCycleCount(Timeline.INDEFINITE);
-        fall.play();
+        movement.setCycleCount(Timeline.INDEFINITE);
+        movement.play();
     }
 
 
@@ -197,18 +211,24 @@ public class GameController {
 
         // Iterasi untuk menemukan kata yang cocok
         for (javafx.scene.Node node : gamePane.getChildren()) {
-            if (node instanceof TextFlow) {
-                TextFlow textFlow = (TextFlow) node;
-                Text wordText = (Text) textFlow.getChildren().get(0); // Ambil teks dari TextFlow
+            if (node instanceof StackPane) {
+                StackPane container = (StackPane) node;
+                // Cari TextFlow dalam container
+                for (javafx.scene.Node child : container.getChildren()) {
+                    if (child instanceof TextFlow) {
+                        TextFlow textFlow = (TextFlow) child;
+                        Text wordText = (Text) textFlow.getChildren().get(0);
 
-                if (wordText.getText().equalsIgnoreCase(typedWord)) {
-                    gamePane.getChildren().remove(textFlow); // Hapus seluruh TextFlow
-                    Long spawnTime = wordSpawnTimes.remove(textFlow); // Ambil waktu spawn
-                    if (spawnTime != null) {
-                        calculateScore(spawnTime); // Hitung skor
+                        if (wordText.getText().equalsIgnoreCase(typedWord)) {
+                            gamePane.getChildren().remove(container);
+                            Long spawnTime = wordSpawnTimes.remove(textFlow);
+                            if (spawnTime != null) {
+                                calculateScore(spawnTime);
+                            }
+                            updateUI();
+                            return;
+                        }
                     }
-                    updateUI();
-                    return;
                 }
             }
         }
