@@ -33,7 +33,7 @@
                 </ImageView>
             </graphic>
         </Button>
-      <TextArea fx:id="currentPlayerRank" layoutX="185.0" layoutY="485.0" prefHeight="39.0" prefWidth="600.0">
+      <TextArea fx:id="currentPlayerRank" editable="false" layoutX="185.0" layoutY="485.0" prefHeight="39.0" prefWidth="600.0">
          <font>
             <Font name="Arial Bold Italic" size="18.0" />
          </font>
