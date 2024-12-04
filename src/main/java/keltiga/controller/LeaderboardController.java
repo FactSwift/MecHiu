@@ -26,6 +26,8 @@
 
         @FXML
         public void initialize() {
+            this.currentUser = SceneManager.getCurrentUser();
+            
             usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
             highScoreColumn.setCellValueFactory(new PropertyValueFactory<>("highScore"));
             loadLeaderboard();
@@ -88,7 +90,7 @@
 
 
         @FXML
-        private void goToLevelSelection() {
+        private void goToHome() {
             SceneManager.switchToHome();
         }
     }

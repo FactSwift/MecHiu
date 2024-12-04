@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
-import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 import keltiga.model.User;
 

@@ -24,7 +24,7 @@
                 <TableColumn fx:id="usernameColumn" prefWidth="294.0" text="Username" />
             </columns>
         </TableView>
-        <Button fx:id="playButton" layoutX="721.0" layoutY="368.0" onAction="#goToLevelSelection" style="-fx-background-color: transparent;" stylesheets="@StyleButton.css">
+        <Button fx:id="homeButton" layoutX="721.0" layoutY="368.0" onAction="#goToHome" style="-fx-background-color: transparent;" stylesheets="@StyleButton.css">
             <graphic>
                 <ImageView fitHeight="183.0" fitWidth="315" pickOnBounds="true" preserveRatio="true">
                     <image>

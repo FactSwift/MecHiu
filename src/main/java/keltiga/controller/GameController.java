@@ -152,7 +152,6 @@ public class GameController {
 
     private void spawnWord() {
         if (wordPool == null || wordPool.isEmpty()) {
-            System.out.println("Word pool is empty. No words to spawn.");
             return;
         }
 
@@ -161,19 +160,20 @@ public class GameController {
         if (isObstacle && obstaclePool != null && !obstaclePool.isEmpty()) {
             word = obstaclePool.get(random.nextInt(obstaclePool.size()));
             Text wordText = new Text(word);
-            wordText.setStyle("-fx-font-size: 16px; -fx-fill: red; -fx-font-weight: bold;");
+            wordText.setStyle("-fx-font-size: 16px; -fx-fill: #FF4040; -fx-font-weight: bold; -fx-opacity: 1.0;");
             TextFlow wordWrapper = new TextFlow(wordText);
-            wordWrapper.setStyle("-fx-text-alignment: center;");
+            wordWrapper.setStyle("-fx-text-alignment: center; -fx-opacity: 1.0;");
             
             ImageView obstacleImage = new ImageView(new Image(getClass().getResourceAsStream("/view/Image/obstacle.png")));
-            obstacleImage.setFitWidth(100);
-            obstacleImage.setFitHeight(50);
+            obstacleImage.setFitWidth(120);
+            obstacleImage.setFitHeight(60);
             
             StackPane container = new StackPane(obstacleImage, wordWrapper);
+            container.setOpacity(1.0);
             StackPane.setAlignment(wordWrapper, Pos.CENTER);
             container.setAlignment(Pos.CENTER);
             
-            StackPane.setMargin(wordWrapper, new Insets(12.5, 10, 0, 0));
+            StackPane.setMargin(wordWrapper, new Insets(15, 10, 0, 0));
             
             container.setLayoutX(gamePane.getWidth());
             container.setLayoutY(random.nextInt((int) (gamePane.getHeight() - 100)));
@@ -197,21 +197,21 @@ public class GameController {
         } else {
             word = wordPool.get(random.nextInt(wordPool.size()));
             Text wordText = new Text(word);
-            wordText.setStyle("-fx-font-size: 16px; -fx-fill: black; -fx-font-weight: bold;");
+            wordText.setStyle("-fx-font-size: 16px; -fx-fill: #00FFFF; -fx-font-weight: bold; -fx-opacity: 1.0;");
             TextFlow wordWrapper = new TextFlow(wordText);
-            wordWrapper.setStyle("-fx-text-alignment: center;");
+            wordWrapper.setStyle("-fx-text-alignment: center; -fx-opacity: 1.0;");
             
-            // Pilih sprite ikan berdasarkan pulau dan difficulty
             String fishImagePath = getFishSpritePath(selectedIsland, selectedDifficulty);
             ImageView fishImage = new ImageView(new Image(getClass().getResourceAsStream(fishImagePath)));
-            fishImage.setFitWidth(100);
-            fishImage.setFitHeight(50);
+            fishImage.setFitWidth(120);
+            fishImage.setFitHeight(60);
             
             StackPane container = new StackPane(fishImage, wordWrapper);
+            container.setOpacity(1.0);
             StackPane.setAlignment(wordWrapper, Pos.CENTER);
             container.setAlignment(Pos.CENTER);
             
-            StackPane.setMargin(wordWrapper, new Insets(12.5, 10, 0, 0));
+            StackPane.setMargin(wordWrapper, new Insets(15, 10, 0, 0));
             
             container.setLayoutX(gamePane.getWidth());
             container.setLayoutY(random.nextInt((int) (gamePane.getHeight() - 100)));
@@ -344,10 +344,14 @@ public class GameController {
         if (gameLoop != null) {
             gameLoop.stop();
         }
+        
+        // Simpan high score sebelum pindah ke leaderboard
         if (currentUser != null && score > currentUser.getHighScore()) {
             currentUser.setHighScore(score);
             userDAO.saveUser(currentUser);
         }
+        
+        // Langsung ke leaderboard jika player menekan tombol end game
         SceneManager.switchToLeaderboard();
     }
 
@@ -355,10 +359,14 @@ public class GameController {
         if (gameLoop != null) {
             gameLoop.stop();
         }
+        
+        // Simpan high score sebelum pindah ke infographic
         if (currentUser != null && score > currentUser.getHighScore()) {
             currentUser.setHighScore(score);
             userDAO.saveUser(currentUser);
         }
+        
+        // Pindah ke infographic, leaderboard akan ditampilkan setelah user menekan tombol continue
         SceneManager.switchToInfographic(selectedIsland, selectedDifficulty, score);
     }
 }
