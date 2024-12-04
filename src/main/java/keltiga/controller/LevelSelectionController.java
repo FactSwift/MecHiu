@@ -129,18 +129,18 @@ public class LevelSelectionController {
     }
 
     @FXML
+    private void selectSumatraIsland() {
+        showDifficultyDialog("Sumatra Island");
+    }
+
+    @FXML
     private void selectJavaIsland() {
         showDifficultyDialog("Java Island");
     }
 
     @FXML
-    private void selectReefIsland() {
-        showDifficultyDialog("Reef Island");
-    }
-
-    @FXML
-    private void selectDeepSeaIsland() {
-        showDifficultyDialog("Deep Sea Island");
+    private void selectPapuaIsland() {
+        showDifficultyDialog("Papua Island");
     }
 
     private void updateUserUI() {

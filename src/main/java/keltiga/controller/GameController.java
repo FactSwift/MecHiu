@@ -40,8 +40,7 @@ public class GameController {
     
     private int score = 0;
     private int health = 3;
-    private String selectedIsland;
-    private String selectedDifficulty;
+
     private Timeline gameLoop;
     private Random random = new Random();
     private List<String> wordPool;
@@ -52,46 +51,18 @@ public class GameController {
     // Map to store words and their spawn times
     private Map<TextFlow, Long> wordSpawnTimes = new HashMap<TextFlow, Long>();
 
+    private List<String> obstaclePool;
+    private int wordsCompleted = 0;
+    private int wordsTarget;
+    
+    // Tambahkan variabel untuk menyimpan pulau dan difficulty yang dipilih
+    private String selectedIsland;
+    private String selectedDifficulty;
+
     @FXML
     public void initialize() {
         this.currentUser = SceneManager.getCurrentUser();
         inputField.setOnAction(event -> checkInput());
-    }
-
-    @FXML
-    public void selectIslandCoral() {
-        selectedIsland = "Coral Island";
-        System.out.println("Coral Island selected.");
-    }
-
-    @FXML
-    public void selectIslandReef() {
-        selectedIsland = "Reef Island";
-        System.out.println("Reef Island selected.");
-    }
-
-    @FXML
-    public void selectIslandDeepSea() {
-        selectedIsland = "Deep Sea Island";
-        System.out.println("Deep Sea Island selected.");
-    }
-
-    @FXML
-    private void selectDifficultyEasy() {
-        selectedDifficulty = "easy";
-        System.out.println("Easy");
-    }
-
-    @FXML
-    private void selectDifficultyMedium() {
-        selectedDifficulty = "medium";
-        System.out.println("Medium");
-    }
-
-    @FXML
-    private void selectDifficultyHard() {
-        selectedDifficulty = "hard";
-        System.out.println("Hard");
     }
     
     private void updateUI() {
@@ -103,26 +74,43 @@ public class GameController {
     }
 
     public void startGame(String island, String difficulty) {
+        this.selectedIsland = island;
+        this.selectedDifficulty = difficulty;
+        
         // Set background based on selected island
         String backgroundPath;
         switch (island) {
+            case "Sumatra Island":
+                backgroundPath = "/view/Image/BackgroundSumatra.png";
+                break;
             case "Java Island":
                 backgroundPath = "/view/Image/BackgroundJava.png";
                 break;
-            case "Reef Island":
-                backgroundPath = "/view/Image/BackgroundReef.png";
-                break;
-            case "Deep Sea Island":
-                backgroundPath = "/view/Image/BackgroundDeep.png";
+            case "Papua Island":
+                backgroundPath = "/view/Image/BackgroundPapua.png";
                 break;
             default:
-                backgroundPath = "/view/Image/BackgroundJava.png";
+                backgroundPath = "/view/Image/BackgroundSumatra.png";
                 break;
         }
         
         backgroundImage.setImage(new Image(getClass().getResourceAsStream(backgroundPath)));
         
+        // Set target berdasarkan difficulty
+        switch (difficulty.toLowerCase()) {
+            case "easy":
+                wordsTarget = 15;
+                break;
+            case "medium":
+                wordsTarget = 25;
+                break;
+            case "hard":
+                wordsTarget = 35;
+                break;
+        }
+        
         loadWordPool(island, difficulty);
+        loadObstaclePool(difficulty);
         score = 0;
         health = 3;
         updateUI();
@@ -151,51 +139,138 @@ public class GameController {
         }
     }
 
+    private void loadObstaclePool(String difficulty) {
+        try (FileReader reader = new FileReader("data/Obstacles.json")) {
+            Map<String, List<String>> obstaclePools = gson.fromJson(reader, Map.class);
+            if (obstaclePools != null && obstaclePools.containsKey(difficulty.toLowerCase())) {
+                obstaclePool = obstaclePools.get(difficulty.toLowerCase());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void spawnWord() {
         if (wordPool == null || wordPool.isEmpty()) {
             System.out.println("Word pool is empty. No words to spawn.");
             return;
         }
 
-        String word = wordPool.get(random.nextInt(wordPool.size()));
-        Text wordText = new Text(word);
-        wordText.setStyle("-fx-font-size: 16px; -fx-fill: black; -fx-font-weight: bold;");
-        TextFlow wordWrapper = new TextFlow(wordText);
-        wordWrapper.setStyle("-fx-text-alignment: center;");
-        
-        // Tambahkan background ikan
-        ImageView fishImage = new ImageView(new Image(getClass().getResourceAsStream("/view/Image/ikan1.png")));
-        fishImage.setFitWidth(100);
-        fishImage.setFitHeight(50);
-        
-        // Buat container untuk menggabungkan ikan dan text
-        StackPane container = new StackPane(fishImage, wordWrapper);
-        StackPane.setAlignment(wordWrapper, Pos.CENTER); // Posisikan text di tengah
-        container.setAlignment(Pos.CENTER); // Posisikan semua elemen di tengah container
-        
-        // Atur margin untuk text (vertical 12.5, horizontal 10)
-        StackPane.setMargin(wordWrapper, new Insets(12.5, 10, 0, 0)); // Menambahkan margin left 10
-        
-        container.setLayoutX(gamePane.getWidth());
-        container.setLayoutY(random.nextInt((int) (gamePane.getHeight() - 100)));
+        String word;
+        boolean isObstacle = random.nextDouble() < 0.3;
+        if (isObstacle && obstaclePool != null && !obstaclePool.isEmpty()) {
+            word = obstaclePool.get(random.nextInt(obstaclePool.size()));
+            Text wordText = new Text(word);
+            wordText.setStyle("-fx-font-size: 16px; -fx-fill: red; -fx-font-weight: bold;");
+            TextFlow wordWrapper = new TextFlow(wordText);
+            wordWrapper.setStyle("-fx-text-alignment: center;");
+            
+            ImageView obstacleImage = new ImageView(new Image(getClass().getResourceAsStream("/view/Image/obstacle.png")));
+            obstacleImage.setFitWidth(100);
+            obstacleImage.setFitHeight(50);
+            
+            StackPane container = new StackPane(obstacleImage, wordWrapper);
+            StackPane.setAlignment(wordWrapper, Pos.CENTER);
+            container.setAlignment(Pos.CENTER);
+            
+            StackPane.setMargin(wordWrapper, new Insets(12.5, 10, 0, 0));
+            
+            container.setLayoutX(gamePane.getWidth());
+            container.setLayoutY(random.nextInt((int) (gamePane.getHeight() - 100)));
 
-        gamePane.getChildren().add(container);
-        wordSpawnTimes.put(wordWrapper, System.currentTimeMillis());
+            gamePane.getChildren().add(container);
+            wordSpawnTimes.put(wordWrapper, System.currentTimeMillis());
 
-        Timeline movement = new Timeline(new KeyFrame(Duration.millis(50), event -> {
-            container.setLayoutX(container.getLayoutX() - 5);
-            if (container.getLayoutX() < -100) {
-                if (gamePane.getChildren().contains(container)) {
-                    gamePane.getChildren().remove(container);
-                    wordSpawnTimes.remove(wordWrapper);
-                    wordMissed();
+            Timeline movement = new Timeline(new KeyFrame(Duration.millis(50), event -> {
+                container.setLayoutX(container.getLayoutX() - 5);
+                if (container.getLayoutX() < -100) {
+                    if (gamePane.getChildren().contains(container)) {
+                        gamePane.getChildren().remove(container);
+                        wordSpawnTimes.remove(wordWrapper);
+                    }
                 }
-            }
-        }));
-        movement.setCycleCount(Timeline.INDEFINITE);
-        movement.play();
+            }));
+            movement.setCycleCount(Timeline.INDEFINITE);
+            movement.play();
+
+            wordWrapper.setUserData(Boolean.TRUE);
+        } else {
+            word = wordPool.get(random.nextInt(wordPool.size()));
+            Text wordText = new Text(word);
+            wordText.setStyle("-fx-font-size: 16px; -fx-fill: black; -fx-font-weight: bold;");
+            TextFlow wordWrapper = new TextFlow(wordText);
+            wordWrapper.setStyle("-fx-text-alignment: center;");
+            
+            // Pilih sprite ikan berdasarkan pulau dan difficulty
+            String fishImagePath = getFishSpritePath(selectedIsland, selectedDifficulty);
+            ImageView fishImage = new ImageView(new Image(getClass().getResourceAsStream(fishImagePath)));
+            fishImage.setFitWidth(100);
+            fishImage.setFitHeight(50);
+            
+            StackPane container = new StackPane(fishImage, wordWrapper);
+            StackPane.setAlignment(wordWrapper, Pos.CENTER);
+            container.setAlignment(Pos.CENTER);
+            
+            StackPane.setMargin(wordWrapper, new Insets(12.5, 10, 0, 0));
+            
+            container.setLayoutX(gamePane.getWidth());
+            container.setLayoutY(random.nextInt((int) (gamePane.getHeight() - 100)));
+
+            gamePane.getChildren().add(container);
+            wordSpawnTimes.put(wordWrapper, System.currentTimeMillis());
+
+            Timeline movement = new Timeline(new KeyFrame(Duration.millis(50), event -> {
+                container.setLayoutX(container.getLayoutX() - 5);
+                if (container.getLayoutX() < -100) {
+                    if (gamePane.getChildren().contains(container)) {
+                        gamePane.getChildren().remove(container);
+                        wordSpawnTimes.remove(wordWrapper);
+                        wordMissed();
+                    }
+                }
+            }));
+            movement.setCycleCount(Timeline.INDEFINITE);
+            movement.play();
+
+            wordWrapper.setUserData(Boolean.FALSE);
+        }
     }
 
+    private String getFishSpritePath(String island, String difficulty) {
+        String basePath = "/view/Image/";
+        
+        if (island.equals("Sumatra Island")) {
+            switch (difficulty.toLowerCase()) {
+                case "easy":
+                    return basePath + "Ikan1.png";
+                case "medium":
+                    return basePath + "Ikan2.png";
+                case "hard":
+                    return basePath + "Ikan3.png";
+            }
+        } else if (island.equals("Java Island")) {
+            switch (difficulty.toLowerCase()) {
+                case "easy":
+                    return basePath + "Ikan4.png";
+                case "medium":
+                    return basePath + "Ikan5.png";
+                case "hard":
+                    return basePath + "Ikan6.png";
+            }
+        } else if (island.equals("Papua Island")) {
+            switch (difficulty.toLowerCase()) {
+                case "easy":
+                    return basePath + "Ikan7.png";
+                case "medium":
+                    return basePath + "Ikan8.png";
+                case "hard":
+                    return basePath + "Ikan9.png";
+            }
+        }
+        
+        // Default fallback jika ada kesalahan
+        return basePath + "Ikan1.png";
+    }
 
     private void wordMissed() {
         health--;
@@ -209,21 +284,36 @@ public class GameController {
         String typedWord = inputField.getText().trim();
         inputField.clear();
 
-        // Iterasi untuk menemukan kata yang cocok
         for (javafx.scene.Node node : gamePane.getChildren()) {
             if (node instanceof StackPane) {
                 StackPane container = (StackPane) node;
-                // Cari TextFlow dalam container
                 for (javafx.scene.Node child : container.getChildren()) {
                     if (child instanceof TextFlow) {
                         TextFlow textFlow = (TextFlow) child;
                         Text wordText = (Text) textFlow.getChildren().get(0);
 
                         if (wordText.getText().equalsIgnoreCase(typedWord)) {
+                            double currentX = container.getLayoutX();
+                            
                             gamePane.getChildren().remove(container);
-                            Long spawnTime = wordSpawnTimes.remove(textFlow);
-                            if (spawnTime != null) {
-                                calculateScore(spawnTime);
+                            wordSpawnTimes.remove(textFlow);
+                            
+                            boolean isObstacle = textFlow.getUserData() != null ? 
+                                (Boolean) textFlow.getUserData() : false;
+                            
+                            if (isObstacle) {
+                                score = Math.max(0, score - 55);
+                                health--;
+                                updateUI();
+                                if (health <= 0) {
+                                    endGame();
+                                }
+                            } else {
+                                wordsCompleted++;
+                                calculateScore(currentX);
+                                if (wordsCompleted >= wordsTarget) {
+                                    winGame();
+                                }
                             }
                             updateUI();
                             return;
@@ -235,16 +325,18 @@ public class GameController {
     }
 
 
-    private void calculateScore(long spawnTime) {
-        long currentTime = System.currentTimeMillis();
-        long duration = currentTime - spawnTime;  // Time in milliseconds
-        int maxDuration = 5000;  // Maximum duration for scoring (e.g., 5 seconds)
-
-        // Calculate score (1 to 100)
-        int wordScore = Math.max(1, 100 - (int) ((duration / (double) maxDuration) * 99));
-        score += wordScore;
-
-        System.out.println("Word typed in " + duration + "ms, score: " + wordScore);
+    private void calculateScore(double currentX) {
+        double maxScore = 125;
+        double initialPosition = gamePane.getWidth();
+        double edgePosition = -100;
+        double totalDistance = initialPosition - edgePosition;
+        
+        double distanceFromSpawn = initialPosition - currentX;
+        double percentageTravel = distanceFromSpawn / totalDistance;
+        
+        int earnedScore = (int)(maxScore * (1 - percentageTravel));
+        score += Math.max(1, earnedScore);
+        System.out.println("Word typed with position score: " + earnedScore);
     }
 
     @FXML
@@ -257,5 +349,16 @@ public class GameController {
             userDAO.saveUser(currentUser);
         }
         SceneManager.switchToLeaderboard();
+    }
+
+    private void winGame() {
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+        if (currentUser != null && score > currentUser.getHighScore()) {
+            currentUser.setHighScore(score);
+            userDAO.saveUser(currentUser);
+        }
+        SceneManager.switchToInfographic(selectedIsland, selectedDifficulty, score);
     }
 }

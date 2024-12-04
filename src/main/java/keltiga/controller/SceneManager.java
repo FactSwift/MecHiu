@@ -88,4 +88,20 @@ public class SceneManager {
         }
     }
 
+    public static void switchToInfographic(String island, String difficulty, int score) {
+        try {
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/Infographic.fxml"));
+            Parent root = loader.load();
+            
+            InfographicController controller = loader.getController();
+            controller.initialize(island, difficulty, score);
+            
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

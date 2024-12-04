@@ -1,0 +1,15 @@
+{
+  "easy": [
+    "nemo", "kima", "sunu", "buntal", "badut", "tuna", "gurami", "karang", "pasir",
+    "ombak", "bening", "jernih", "indah", "biru", "hijau", "merah", "kuning", "putih"
+  ],
+  "medium": [
+    "napoleon", "dugong", "barakuda", "mandarin", "angelfish", "butterfly", "moorish",
+    "grouper", "wrasse", "damsel", "anthias", "goby", "blenny", "dottyback", "sweetlips"
+  ],
+  "hard": [
+    "keanekaragaman", "perlindungan", "pengembangbiakan", "pelestarian-alam", "taman-nasional",
+    "daerah-asuhan", "wilayah-lindung", "zona-perlindungan", "kawasan-konservasi",
+    "daerah-pemijahan", "habitat-alami", "spesies-endemik", "biota-perairan"
+  ]
+}

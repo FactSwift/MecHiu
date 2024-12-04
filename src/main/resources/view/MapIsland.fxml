@@ -36,7 +36,7 @@
             </Label>
         </VBox>
 
-        <Button fx:id="javaIslandButton" layoutX="86.0" layoutY="35.0" onAction="#selectJavaIsland" 
+        <Button fx:id="sumatraIslandButton" layoutX="86.0" layoutY="35.0" onAction="#selectSumatraIsland" 
                 prefHeight="114.0" prefWidth="108.0" styleClass="button-third" 
                 stylesheets="@StyleButton.css" textFill="WHITE">
             <graphic>
@@ -48,7 +48,7 @@
             </graphic>
         </Button>
 
-        <Button fx:id="reefIslandButton" layoutX="212.0" layoutY="242.7" onAction="#selectReefIsland" 
+        <Button fx:id="javaIslandButton" layoutX="212.0" layoutY="242.7" onAction="#selectJavaIsland" 
                 prefHeight="114.0" prefWidth="108.0" styleClass="button-third" 
                 stylesheets="@StyleButton.css" textFill="WHITE">
             <graphic>
@@ -60,7 +60,7 @@
             </graphic>
         </Button>
 
-        <Button fx:id="deepIslandButton" layoutX="806.0" layoutY="169.0" onAction="#selectDeepSeaIsland" 
+        <Button fx:id="papuaIslandButton" layoutX="806.0" layoutY="169.0" onAction="#selectPapuaIsland" 
                 prefHeight="85.0" prefWidth="73.0" styleClass="button-third" 
                 stylesheets="@StyleButton.css" textFill="WHITE">
             <graphic>

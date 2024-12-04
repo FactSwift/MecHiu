@@ -1,5 +1,15 @@
 {
-  "easy": ["cat", "dog", "fish", "sea", "coral"],
-  "medium": ["dolphin", "whale", "stingray", "jellyfish"],
-  "hard": ["oceanography", "shipwreck", "biodiversity"]
+  "easy": [
+    "kapal", "perahu", "pantai", "nelayan", "jaring", "pancing", "kepiting", "ubur",
+    "pasang", "surut", "bulan", "angin", "badai", "terang", "teduh", "dingin", "hangat", "basah"
+  ],
+  "medium": [
+    "rajungan", "cendro", "kembung", "layang", "senangin", "kurisi", "kuniran", "tembang",
+    "lemuru", "cucut", "pari", "layur", "teri", "bandeng", "dorang"
+  ],
+  "hard": [
+    "penangkapan", "pengolahan", "pembudidaya", "pengawetan", "pengeringan", "pembekuan",
+    "pengasinan", "pengasapan", "pengemasan", "penyimpanan", "pendistribusian", "pemasaran",
+    "pengembangan", "pengelolaan"
+  ]
 }

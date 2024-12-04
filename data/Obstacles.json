@@ -1,0 +1,15 @@
+{
+  "easy": [
+    "sampah", "plastik", "botol", "kaleng", "kantong", "sedotan", "styrofoam", "tali",
+    "karet", "karung", "kresek", "ember", "gabus", "kotak", "bungkus"
+  ],
+  "medium": [
+    "limbah", "minyak", "deterjen", "pupuk", "pestisida", "logam", "merkuri", "timbal",
+    "mikroplastik", "kimia", "asam", "basa", "racun", "zat-perusak", "polutan"
+  ],
+  "hard": [
+    "pencemaran", "kerusakan", "pengrusakan", "kepunahan", "eksploitasi", "perusakan",
+    "penangkapan-liar", "limbah-industri", "limbah-berbahaya", "sampah-beracun",
+    "kerusakan-habitat", "degradasi-laut", "polusi-air", "dampak-lingkungan"
+  ]
+}
