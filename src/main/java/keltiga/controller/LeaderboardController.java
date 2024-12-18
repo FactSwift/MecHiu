@@ -37,51 +37,41 @@
             // Fetch all users from DAO
             Map<String, User> usersMap = userDAO.getAllUsers();
 
-            // Filter out users with score 0
-            List<User> validUsers = usersMap.values().stream()
+            // Filter out users with score 0 and sort by high score
+            List<User> sortedUsers = usersMap.values().stream()
                     .filter(user -> user.getHighScore() > 0)
-                    .collect(Collectors.toList());
-
-            // Sort users by high score in descending order
-            List<User> sortedUsers = validUsers.stream()
                     .sorted((u1, u2) -> Integer.compare(u2.getHighScore(), u1.getHighScore()))
                     .collect(Collectors.toList());
 
-            // Get the top 10 users
+            // Get top 10 for table display
             List<User> topTenUsers = sortedUsers.stream()
                     .limit(10)
                     .collect(Collectors.toList());
 
-            // Find the rank of the current user based on table order
+            // Find current user's rank in FULL sorted list
             int currentUserRank = -1;
             if (currentUser != null) {
-                for (int i = 0; i < topTenUsers.size(); i++) {
-                    if (topTenUsers.get(i).getUsername().equals(currentUser.getUsername())) {
+                for (int i = 0; i < sortedUsers.size(); i++) {
+                    if (sortedUsers.get(i).getUsername().equals(currentUser.getUsername())) {
                         currentUserRank = i + 1; // 1-based position
                         break;
                     }
                 }
             }
 
-            // Convert to ObservableList for TableView
-            ObservableList<User> observableUserList = FXCollections.observableArrayList(topTenUsers);
+            // Update table with top 10
+            leaderboardTable.setItems(FXCollections.observableArrayList(topTenUsers));
 
-            // Display top 10 in the table
-            leaderboardTable.setItems(observableUserList);
-
-            // Show current user's rank in TextArea
+            // Update rank display
             if (currentPlayerRank != null) {
-                if (currentUserRank > 0) {
-                    // Clear the TextArea if in top 10
-                    currentPlayerRank.clear();
+                if (currentUser == null) {
+                    currentPlayerRank.setText("Silakan login terlebih dahulu.");
+                } else if (currentUser.getHighScore() == 0) {
+                    currentPlayerRank.setText("Anda belum memiliki skor.");
+                } else if (currentUserRank > 0) {
+                    currentPlayerRank.setText("Anda berada di posisi #" + currentUserRank);
                 } else {
-                    // Determine rank from full sorted list if not in top 10
-                    currentUserRank = sortedUsers.indexOf(currentUser) + 1;
-                    if (currentUserRank > 0) {
-                        currentPlayerRank.setText("Anda berada di posisi #" + currentUserRank);
-                    } else {
-                        currentPlayerRank.setText("Anda tidak berada di dalam peringkat.");
-                    }
+                    currentPlayerRank.setText("Terjadi kesalahan dalam menghitung peringkat.");
                 }
             }
         }

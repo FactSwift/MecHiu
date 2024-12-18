@@ -1,3 +1,4 @@
+/* Existing button styles */
 .button {
     /* -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 3); Efek bayangan */
     -fx-transition: all 0.4s ease; /* Transisi untuk efek hover */
@@ -13,8 +14,7 @@
     -fx-scale-y: 0.95; /* Mengurangi ukuran tombol saat ditekan */
 }
 
-/* button kedua */
-
+/* Existing button-secondary styles */
 .button-secondary {
     -fx-background-color: #0f6cc2;
     -fx-transition: all 0.2s ease; /* Transisi untuk efek hover */
@@ -35,45 +35,74 @@
     -fx-text-fill: #00356b; /* Teks warna biru tua */
 }
 
-/* button ketiga */
-
+/* Updated table styles with kid-friendly colors while keeping transparency */
 .table-view {
-    -fx-background-color: rgba(255, 255, 255, 0.5); /* Warna biru tua (navy) dengan opasitas 20% */
-    -fx-border-color: transparent;            /* Menghapus garis pinggir tabel */
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-border-color: transparent;
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 14px;
 }
 
-.table-column-header {
-    -fx-background-color: rgba(255, 255, 255, 0.5); /* Warna biru tua untuk header */
-    -fx-border-color: transparent;            /* Menghapus garis pinggir header */
+.table-view .column-header {
+    -fx-background-color: rgba(255, 192, 203, 0.7); /* Light pink with transparency */
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 16px;
+    -fx-text-fill: #FF1493; /* Deep pink for header text */
+    -fx-border-color: transparent;
 }
 
 .table-row-cell {
-    -fx-background-color: transparent; /* Membuat sel tabel transparan */
+    -fx-background-color: transparent;
+    -fx-text-fill: #FF69B4; /* Hot pink for cell text */
+    -fx-font-family: "Comic Sans MS";
 }
 
+.table-row-cell:odd {
+    -fx-background-color: rgba(255, 182, 193, 0.3); /* Light pink with high transparency */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: rgba(255, 105, 180, 0.5); /* Hot pink with transparency */
+    -fx-text-fill: white;
+}
+
+/* Existing button-third styles */
 .button-third {
     -fx-background-color: transparent;
-    -fx-transition: all 0.2s ease; /* Transisi untuk efek hover */
+    -fx-transition: all 0.2s ease;
 }
 
 .button-third:hover {
-    -fx-scale-x: 1.1; /* Memperbesar saat hover */
-    -fx-scale-y: 1.1; /* Memperbesar saat hover */
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 .button-third:pressed {
-    -fx-scale-x: 0.95; /* Mengurangi ukuran tombol saat ditekan */
-    -fx-scale-y: 0.95; /* Mengurangi ukuran tombol saat ditekan */
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
 }
 
 .button-third.toggled {
-    
 }
 
+/* Existing switch user button styles */
 #switchUserButton:hover {
     -fx-background-color: #2980B9;
 }
 
 #switchUserButton:pressed {
     -fx-background-color: #2472A4;
+}
+
+/* New styles for text area */
+.text-area {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 16px;
+    -fx-text-fill: #FF69B4;
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-border-color: transparent;
+}
+
+.text-area .content {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
 }
