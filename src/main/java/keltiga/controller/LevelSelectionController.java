@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import keltiga.model.User;
 
 public class LevelSelectionController {
@@ -20,11 +22,31 @@ public class LevelSelectionController {
     private String selectedIsland = "Java Island";
     private String selectedDifficulty = "Easy";
     private User currentUser;
+    private MediaPlayer backgroundMusic;
 
     @FXML
     public void initialize() {
         this.currentUser = SceneManager.getCurrentUser();
         updateUserUI();
+        playIslandSelectionMusic();
+    }
+
+    private void playIslandSelectionMusic() {
+        try {
+            Media sound = new Media(getClass().getResource("/music/island.mp3").toExternalForm());
+            backgroundMusic = new MediaPlayer(sound);
+            backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
+            backgroundMusic.play();
+        } catch (Exception e) {
+            System.out.println("Error playing island selection music: " + e.getMessage());
+        }
+    }
+
+    private void stopMusic() {
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+            backgroundMusic.dispose();
+        }
     }
 
     private void showDifficultyDialog(String island) {
@@ -150,16 +172,19 @@ public class LevelSelectionController {
 
     @FXML
     private void startGame() {
+        stopMusic();
         SceneManager.startGame(selectedIsland, selectedDifficulty);
     }
 
     @FXML
     private void switchUser() {
+        stopMusic();
         SceneManager.switchToUserSelection();
     }
 
     @FXML
     private void goToMap() {
+        stopMusic();
         SceneManager.switchToMapIsland();
     }
 }

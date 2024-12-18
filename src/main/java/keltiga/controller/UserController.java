@@ -3,6 +3,8 @@ package keltiga.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import keltiga.dao.UserDAO;
 import keltiga.model.User;
 
@@ -11,8 +13,44 @@ public class UserController {
     @FXML private TextField usernameField;
     @FXML private Label messageLabel;
 
-    private UserDAO userDAO = new UserDAO();  // DAO to manage user data
+    private UserDAO userDAO = new UserDAO();
     private User currentUser;
+    private MediaPlayer backgroundMusic;
+
+    @FXML
+    public void initialize() {
+        System.out.println("UserController initialized");
+        playLoginMusic();
+    }
+
+    private void playLoginMusic() {
+        try {
+            String musicFile = "/music/login.mp3";
+            System.out.println("Attempting to play music from: " + musicFile);
+            
+            Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
+            backgroundMusic = new MediaPlayer(sound);
+            backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
+            backgroundMusic.setVolume(1.0);
+            backgroundMusic.play();
+            
+            System.out.println("Login music started playing");
+        } catch (Exception e) {
+            System.out.println("Error playing login music: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void stopMusic() {
+        if (backgroundMusic != null) {
+            try {
+                backgroundMusic.stop();
+                backgroundMusic.dispose();
+            } catch (Exception e) {
+                System.out.println("Error stopping music: " + e.getMessage());
+            }
+        }
+    }
 
     @FXML
     private void loginUser() {
@@ -27,8 +65,9 @@ public class UserController {
             messageLabel.setText("User not found. Try creating a new user.");
         } else {
             messageLabel.setText("Welcome back, " + username + "!");
-            SceneManager.setCurrentUser(currentUser);  // Set current user in SceneManager
-            SceneManager.switchToHome();  // Proceed to level selection
+            stopMusic();
+            SceneManager.setCurrentUser(currentUser);
+            SceneManager.switchToHome();
         }
     }
 
@@ -46,10 +85,11 @@ public class UserController {
         }
 
         currentUser = new User(username);
-        userDAO.saveUser(currentUser);  // Save new user
+        userDAO.saveUser(currentUser);
         messageLabel.setText("New user created! Welcome, " + username + "!");
-        SceneManager.setCurrentUser(currentUser);  // Set current user
-        SceneManager.switchToHome();  // Proceed to level selection
+        stopMusic();
+        SceneManager.setCurrentUser(currentUser);
+        SceneManager.switchToHome();
     }
 
     @FXML
@@ -66,8 +106,8 @@ public class UserController {
             return;
         }
 
-        userDAO.deleteUser(username);  // Remove the user
+        userDAO.deleteUser(username);
         messageLabel.setText("User " + username + " has been deleted.");
-        usernameField.clear();  // Clear the input field after deletion
+        usernameField.clear();
     }
 }

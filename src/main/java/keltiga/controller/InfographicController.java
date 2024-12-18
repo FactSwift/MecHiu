@@ -3,6 +3,10 @@ package keltiga.controller;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import keltiga.model.User;
+import keltiga.dao.UserDAO;
 
 public class InfographicController {
     @FXML
@@ -11,6 +15,7 @@ public class InfographicController {
     private String selectedIsland;
     private String selectedDifficulty;
     private int finalScore;
+    private MediaPlayer backgroundMusic;
     
     public void initialize(String island, String difficulty, int score) {
         this.selectedIsland = island;
@@ -19,6 +24,43 @@ public class InfographicController {
         
         String imagePath = getInfographicPath(island, difficulty);
         infographicImage.setImage(new Image(getClass().getResourceAsStream(imagePath)));
+        
+        User currentUser = SceneManager.getCurrentUser();
+        if (currentUser != null && score > currentUser.getHighScore()) {
+            currentUser.setHighScore(score);
+            UserDAO userDAO = new UserDAO();
+            userDAO.saveUser(currentUser);
+        }
+        
+        playWinMusic();
+    }
+    
+    private void playWinMusic() {
+        try {
+            String musicFile = "/music/menang.mp3";
+            System.out.println("Attempting to play win music from: " + musicFile);
+            
+            Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
+            backgroundMusic = new MediaPlayer(sound);
+            backgroundMusic.setVolume(1.0);
+            backgroundMusic.play();
+            
+            System.out.println("Win music started playing");
+        } catch (Exception e) {
+            System.out.println("Error playing win music: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    private void stopMusic() {
+        if (backgroundMusic != null) {
+            try {
+                backgroundMusic.stop();
+                backgroundMusic.dispose();
+            } catch (Exception e) {
+                System.out.println("Error stopping music: " + e.getMessage());
+            }
+        }
     }
     
     private String getInfographicPath(String island, String difficulty) {
@@ -58,6 +100,7 @@ public class InfographicController {
     
     @FXML
     private void continueToLeaderboard() {
+        stopMusic();
         SceneManager.switchToLeaderboard();
     }
 } 

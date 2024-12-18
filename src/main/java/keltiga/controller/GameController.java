@@ -18,6 +18,9 @@ import javafx.scene.image.ImageView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Region;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -59,6 +62,8 @@ public class GameController {
     private String selectedIsland;
     private String selectedDifficulty;
 
+    private MediaPlayer backgroundMusic;
+
     @FXML
     public void initialize() {
         this.currentUser = SceneManager.getCurrentUser();
@@ -74,6 +79,9 @@ public class GameController {
     }
 
     public void startGame(String island, String difficulty) {
+        stopCurrentMusic();
+        playIslandMusic(island);
+        
         this.selectedIsland = island;
         this.selectedDifficulty = difficulty;
         
@@ -156,20 +164,26 @@ public class GameController {
         }
 
         String word;
-        boolean isObstacle = random.nextDouble() < 0.3;
+        boolean isObstacle = random.nextDouble() < 0.15;
         if (isObstacle && obstaclePool != null && !obstaclePool.isEmpty()) {
             word = obstaclePool.get(random.nextInt(obstaclePool.size()));
             Text wordText = new Text(word);
             wordText.setStyle("-fx-font-size: 16px; -fx-fill: #FF4040; -fx-font-weight: bold; -fx-opacity: 1.0;");
+            
             TextFlow wordWrapper = new TextFlow(wordText);
-            wordWrapper.setStyle("-fx-text-alignment: center; -fx-opacity: 1.0;");
+            wordWrapper.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            wordWrapper.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            wordWrapper.setMaxWidth(Region.USE_PREF_SIZE);
+            wordWrapper.setMaxHeight(Region.USE_PREF_SIZE);
+            wordWrapper.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-padding: 5 10 5 10; -fx-background-radius: 5;");
             
             ImageView obstacleImage = new ImageView(new Image(getClass().getResourceAsStream("/view/Image/obstacle.png")));
-            obstacleImage.setFitWidth(120);
-            obstacleImage.setFitHeight(60);
+            obstacleImage.setFitWidth(180);
+            obstacleImage.setFitHeight(90);
             
             StackPane container = new StackPane(obstacleImage, wordWrapper);
             container.setOpacity(1.0);
+            
             StackPane.setAlignment(wordWrapper, Pos.CENTER);
             container.setAlignment(Pos.CENTER);
             
@@ -197,21 +211,27 @@ public class GameController {
         } else {
             word = wordPool.get(random.nextInt(wordPool.size()));
             Text wordText = new Text(word);
-            wordText.setStyle("-fx-font-size: 16px; -fx-fill: #00FFFF; -fx-font-weight: bold; -fx-opacity: 1.0;");
+            wordText.setStyle("-fx-font-size: 16px; -fx-fill: white; -fx-font-weight: bold;");
+            
             TextFlow wordWrapper = new TextFlow(wordText);
-            wordWrapper.setStyle("-fx-text-alignment: center; -fx-opacity: 1.0;");
+            wordWrapper.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            wordWrapper.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            wordWrapper.setMaxWidth(Region.USE_PREF_SIZE);
+            wordWrapper.setMaxHeight(Region.USE_PREF_SIZE);
+            wordWrapper.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-padding: 5 10 5 10; -fx-background-radius: 5;");
             
             String fishImagePath = getFishSpritePath(selectedIsland, selectedDifficulty);
             ImageView fishImage = new ImageView(new Image(getClass().getResourceAsStream(fishImagePath)));
-            fishImage.setFitWidth(120);
-            fishImage.setFitHeight(60);
+            fishImage.setFitWidth(180);
+            fishImage.setFitHeight(90);
             
-            StackPane container = new StackPane(fishImage, wordWrapper);
+            StackPane container = new StackPane();
+            container.getChildren().addAll(fishImage, wordWrapper);
             container.setOpacity(1.0);
-            StackPane.setAlignment(wordWrapper, Pos.CENTER);
-            container.setAlignment(Pos.CENTER);
             
-            StackPane.setMargin(wordWrapper, new Insets(15, 10, 0, 0));
+            StackPane.setAlignment(wordWrapper, Pos.TOP_CENTER);
+            StackPane.setMargin(wordWrapper, new Insets(0, 0, 100, 0));
+            container.setAlignment(Pos.CENTER);
             
             container.setLayoutX(gamePane.getWidth());
             container.setLayoutY(random.nextInt((int) (gamePane.getHeight() - 100)));
@@ -276,7 +296,7 @@ public class GameController {
         health--;
         updateUI();
         if (health <= 0) {
-            endGame();
+            loseGame();
         }
     }
 
@@ -306,7 +326,7 @@ public class GameController {
                                 health--;
                                 updateUI();
                                 if (health <= 0) {
-                                    endGame();
+                                    loseGame();
                                 }
                             } else {
                                 wordsCompleted++;
@@ -341,32 +361,77 @@ public class GameController {
 
     @FXML
     public void endGame() {
+        stopCurrentMusic();
         if (gameLoop != null) {
             gameLoop.stop();
         }
         
-        // Simpan high score sebelum pindah ke leaderboard
+        // Simpan score sebelum pindah ke leaderboard
         if (currentUser != null && score > currentUser.getHighScore()) {
             currentUser.setHighScore(score);
             userDAO.saveUser(currentUser);
         }
         
-        // Langsung ke leaderboard jika player menekan tombol end game
-        SceneManager.switchToLeaderboard();
+        // Langsung ke Home screen ketika end game
+        SceneManager.switchToHome();
+    }
+
+    private void loseGame() {
+        stopCurrentMusic();
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+        
+        // Simpan score sebelum pindah ke leaderboard
+        if (currentUser != null && score > currentUser.getHighScore()) {
+            currentUser.setHighScore(score);
+            userDAO.saveUser(currentUser);
+        }
+        
+        // Langsung ke Home screen ketika kalah
+        SceneManager.switchToHome();
     }
 
     private void winGame() {
+        stopCurrentMusic();
         if (gameLoop != null) {
             gameLoop.stop();
         }
         
-        // Simpan high score sebelum pindah ke infographic
-        if (currentUser != null && score > currentUser.getHighScore()) {
-            currentUser.setHighScore(score);
-            userDAO.saveUser(currentUser);
+        // Pindah ke infographic untuk kasus menang
+        SceneManager.switchToInfographic(selectedIsland, selectedDifficulty, score);
+    }
+
+    private void stopCurrentMusic() {
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+            backgroundMusic.dispose();
+        }
+    }
+
+    private void playIslandMusic(String island) {
+        String musicFile;
+        switch (island) {
+            case "Java Island":
+                musicFile = "/music/jawa.mp3";
+                break;
+            case "Sumatra Island":
+                musicFile = "/music/sumatra.mp3";
+                break;
+            case "Papua Island":
+                musicFile = "/music/papua.mp3";
+                break;
+            default:
+                return;
         }
         
-        // Pindah ke infographic, leaderboard akan ditampilkan setelah user menekan tombol continue
-        SceneManager.switchToInfographic(selectedIsland, selectedDifficulty, score);
+        try {
+            Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
+            backgroundMusic = new MediaPlayer(sound);
+            backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
+            backgroundMusic.play();
+        } catch (Exception e) {
+            System.out.println("Error playing music: " + e.getMessage());
+        }
     }
 }

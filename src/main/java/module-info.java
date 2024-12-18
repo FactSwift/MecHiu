@@ -3,6 +3,7 @@ module keltiga.mechiu {
     requires javafx.fxml;
     requires com.google.gson;
     requires java.desktop;
+    requires javafx.media;
 
     opens keltiga to javafx.fxml;   // Open package to JavaFX FXML loader
     opens keltiga.model to com.google.gson;  // Open model package to Gson
