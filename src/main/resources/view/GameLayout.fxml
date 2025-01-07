@@ -8,8 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.effect.DropShadow?>
 
-<AnchorPane prefHeight="653.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.GameController">
+<AnchorPane prefHeight="653.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.GameController">
     <children>
         <ImageView fx:id="backgroundImage" fitHeight="715.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -25,37 +26,10 @@
             </image>
         </ImageView>
 
-        <TextField fx:id="inputField" layoutX="362.0" layoutY="637.0" prefHeight="32.0" prefWidth="217.0" promptText="Type here..." style="-fx-background-color: white;" />
+        <TextField fx:id="inputField" layoutX="362.0" layoutY="637.0" prefHeight="32.0" prefWidth="217.0" promptText="Type here..." 
+                   style="-fx-background-color: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
         
-        <ImageView fitHeight="25.0" fitWidth="39.0" layoutX="127.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@Image/Hearth.png" />
-            </image>
-        </ImageView>
-
-        <Label fx:id="scoreLabel" layoutX="174.0" layoutY="58.0" prefHeight="31.0" prefWidth="127.0" style="-fx-background-color: #f6f6df;" text="  Score: 0" textFill="#d4811b">
-            <font>
-                <Font size="21.0" />
-            </font>
-        </Label>
-
-        <Label fx:id="healthLabel" layoutX="34.0" layoutY="56.0" text="Health: 3" textFill="#f63e3e">
-            <font>
-                <Font name="System Bold" size="23.0" />
-            </font>
-        </Label>
-
-        <Button fx:id="startButton" layoutX="580.0" layoutY="629.0" style="-fx-background-color: transparent;">
-            <graphic>
-                <ImageView fitHeight="58.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@Image/Play2.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <Button layoutX="664.0" layoutY="630.0" onAction="#endGame" style="-fx-background-color: transparent;">
+        <Button layoutX="590.0" layoutY="630.0" onAction="#endGame" style="-fx-background-color: transparent;">
             <graphic>
                 <ImageView fitHeight="45.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -64,5 +38,32 @@
                 </ImageView>
             </graphic>
         </Button>
+
+        <ImageView fitHeight="25.0" fitWidth="39.0" layoutX="34.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Image/Hearth.png" />
+            </image>
+        </ImageView>
+
+        <Label fx:id="healthLabel" layoutX="70.0" layoutY="58.0" text="Health: 3" 
+               style="-fx-text-fill: linear-gradient(to bottom, #ff0000, #ff6b6b);">
+            <font>
+                <Font name="Arial Black" size="23.0" />
+            </font>
+            <effect>
+                <DropShadow color="#000000" radius="4" spread="0.5" />
+            </effect>
+        </Label>
+
+        <Label fx:id="scoreLabel" layoutX="220.0" layoutY="58.0" prefHeight="31.0" prefWidth="200.0" 
+               style="-fx-text-fill: linear-gradient(to bottom, #ffd700, #ffa500);" 
+               text="Score: 0">
+            <font>
+                <Font name="Arial Black" size="23.0" />
+            </font>
+            <effect>
+                <DropShadow color="#000000" radius="4" spread="0.5" />
+            </effect>
+        </Label>
     </children>
 </AnchorPane>
