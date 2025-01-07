@@ -1,15 +1,15 @@
 {
   "easy": [
-    "ikan", "laut", "paus", "hiu", "udang", "cumi", "kerang", "air", "garam", "layar",
-    "jala", "arus", "batu", "muara", "teluk", "pulau", "gelap", "cerah", "sinar", "riak"
+    "kapal", "perahu", "pantai", "nelayan", "jaring", "pancing", "kepiting", "ubur",
+    "pasang", "surut", "bulan", "angin", "badai", "terang", "teduh", "dingin", "hangat", "basah"
   ],
   "medium": [
-    "terumbu", "pesisir", "pelabuhan", "mangrove", "plankton", "baronang", "kerapu", "kakap",
-    "cakalang", "tongkol", "tenggiri", "bawal", "belanak", "selar", "tamban"
+    "rajungan", "cendro", "kembung", "layang", "senangin", "kurisi", "kuniran", "tembang",
+    "lemuru", "cucut", "pari", "layur", "teri", "bandeng", "dorang"
   ],
   "hard": [
-    "konservasi", "ekosistem", "biodiversitas", "pelestarian", "perikanan", "budidaya",
-    "berkelanjutan", "biota-laut", "terumbu-karang", "hutan-bakau", "migrasi-ikan",
-    "habitat-laut", "populasi-ikan", "kawasan-lindung"
+    "penangkapan", "pengolahan", "pembudidaya", "pengawetan", "pengeringan", "pembekuan",
+    "pengasinan", "pengasapan", "pengemasan", "penyimpanan", "pendistribusian", "pemasaran",
+    "pengembangan", "pengelolaan"
   ]
 }
