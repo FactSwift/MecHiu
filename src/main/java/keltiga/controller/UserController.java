@@ -26,7 +26,9 @@ public class UserController {
     private void playLoginMusic() {
         try {
             String musicFile = "/music/login.mp3";
+            System.out.println("Current working directory: " + System.getProperty("user.dir"));
             System.out.println("Attempting to play music from: " + musicFile);
+            System.out.println("Full resource path: " + getClass().getResource(musicFile));
             
             Media sound = new Media(getClass().getResource(musicFile).toExternalForm());
             backgroundMusic = new MediaPlayer(sound);
