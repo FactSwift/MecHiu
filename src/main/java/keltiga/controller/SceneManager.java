@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import keltiga.model.User;
 import javafx.scene.layout.AnchorPane;
+import javafx.application.Platform;
 
 public class SceneManager {
 
@@ -105,17 +106,24 @@ public class SceneManager {
 
     public static void switchToInfographic(String island, String difficulty, int score) {
         try {
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/Infographic.fxml"));
-            Parent root = loader.load();
-            
-            InfographicController controller = loader.getController();
-            controller.initialize(island, difficulty, score);
-            
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource("/view/Infographic.fxml"));
+                    Parent root = loader.load();
+                    
+                    InfographicController controller = loader.getController();
+                    controller.initialize(island, difficulty, score);
+                    
+                    Scene scene = new Scene(root);
+                    primaryStage.setScene(scene);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
             e.printStackTrace();
+            // Fallback ke home jika terjadi error
+            switchToHome();
         }
     }
 

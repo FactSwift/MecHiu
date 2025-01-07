@@ -721,6 +721,9 @@ public class GameController {
     private void winGame() {
         try {
             cleanup();
+            final String finalIsland = selectedIsland;
+            final String finalDifficulty = selectedDifficulty;
+            final int finalScore = score;
 
             // Update progress dan simpan score
             if (currentUser != null) {
@@ -731,12 +734,19 @@ public class GameController {
                 userDAO.saveUser(currentUser);
             }
 
-            // Pindah ke infographic
-            SceneManager.switchToInfographic(selectedIsland, selectedDifficulty, score);
+            Platform.runLater(() -> {
+                try {
+                    Thread.sleep(500); // Beri waktu untuk cleanup
+                    SceneManager.switchToInfographic(finalIsland, finalDifficulty, finalScore);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
             
         } catch (Exception e) {
             System.out.println("Error in winGame: " + e.getMessage());
             e.printStackTrace();
+            SceneManager.switchToHome(); // Fallback ke home jika error
         }
     }
 
