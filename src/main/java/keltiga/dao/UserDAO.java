@@ -8,6 +8,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,12 @@ public class UserDAO {
     private Map<String, User> users = new HashMap<>();
 
     public UserDAO() {
+        // Buat folder data jika belum ada
+        try {
+            Files.createDirectories(Paths.get("data"));
+        } catch (IOException e) {
+            System.out.println("Error creating data directory: " + e.getMessage());
+        }
         loadUsers();
     }
 
@@ -43,15 +50,29 @@ public class UserDAO {
     }
 
     private void loadUsers() {
-        if (!Files.exists(Paths.get(USER_FILE))) {
-            return; // If no file, start with empty users
+        Path userFile = Paths.get(USER_FILE);
+        if (!Files.exists(userFile)) {
+            try {
+                // Buat file kosong jika belum ada
+                Files.createDirectories(userFile.getParent());
+                Files.write(userFile, "{}".getBytes());
+                users = new HashMap<>();
+            } catch (IOException e) {
+                System.out.println("Error creating users file: " + e.getMessage());
+            }
+            return;
         }
+
         try (Reader reader = new FileReader(USER_FILE)) {
             Gson gson = new Gson();
             Type type = new TypeToken<Map<String, User>>() {}.getType();
             users = gson.fromJson(reader, type);
+            if (users == null) {
+                users = new HashMap<>();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error loading users: " + e.getMessage());
+            users = new HashMap<>();
         }
     }
 
