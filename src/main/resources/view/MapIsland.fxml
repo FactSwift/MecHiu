@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="546.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.LevelSelectionController">
+<AnchorPane prefHeight="546.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="keltiga.controller.LevelSelectionController">
     <children>
         <ImageView fitHeight="546.0" fitWidth="969.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -36,9 +36,10 @@
             </Label>
         </VBox>
 
+        <!-- Island Buttons -->
         <Button fx:id="sumatraIslandButton" layoutX="86.0" layoutY="35.0" onAction="#selectSumatraIsland" 
                 prefHeight="114.0" prefWidth="108.0" styleClass="button-third" 
-                stylesheets="@StyleButton.css" textFill="WHITE">
+                stylesheets="@StyleButton.css">
             <graphic>
                 <ImageView fitHeight="97.2" fitWidth="121.2" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -50,7 +51,7 @@
 
         <Button fx:id="javaIslandButton" layoutX="212.0" layoutY="242.7" onAction="#selectJavaIsland" 
                 prefHeight="114.0" prefWidth="108.0" styleClass="button-third" 
-                stylesheets="@StyleButton.css" textFill="WHITE">
+                stylesheets="@StyleButton.css">
             <graphic>
                 <ImageView fitHeight="97.2" fitWidth="121.2" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -62,23 +63,11 @@
 
         <Button fx:id="papuaIslandButton" layoutX="806.0" layoutY="169.0" onAction="#selectPapuaIsland" 
                 prefHeight="85.0" prefWidth="73.0" styleClass="button-third" 
-                stylesheets="@StyleButton.css" textFill="WHITE">
+                stylesheets="@StyleButton.css">
             <graphic>
                 <ImageView fitHeight="97.2" fitWidth="121.2" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@Image/PinPapua.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <Button layoutX="414.0" layoutY="410.0" onAction="#startGame" 
-                prefHeight="82.0" prefWidth="153.0" style="-fx-background-color: transparent;" 
-                stylesheets="@StyleButton.css">
-            <graphic>
-                <ImageView fitHeight="100.0" fitWidth="166.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@Image/Play2.png" />
                     </image>
                 </ImageView>
             </graphic>

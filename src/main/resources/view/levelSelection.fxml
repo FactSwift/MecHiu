@@ -1,4 +1,0 @@
-<!-- Ubah id dan onAction untuk button-button -->
-<Button fx:id="sumatraIslandButton" onAction="#selectSumatraIsland" ... />  <!-- Dari javaIslandButton -->
-<Button fx:id="javaIslandButton" onAction="#selectJavaIsland" ... />        <!-- Dari reefIslandButton -->
-<Button fx:id="papuaIslandButton" onAction="#selectPapuaIsland" ... />      <!-- Dari deepIslandButton -->
