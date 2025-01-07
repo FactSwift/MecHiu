@@ -35,7 +35,7 @@
         </Button>
         <TextArea fx:id="currentPlayerRank" editable="false" layoutX="185.0" layoutY="485.0" prefHeight="39.0" prefWidth="600.0">
             <font>
-                <Font name="Comic Sans MS" size="18.0" />
+                <Font name="Comic Sans MS" size="24.0" />
             </font>
         </TextArea>
     </children>

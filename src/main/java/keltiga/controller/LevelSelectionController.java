@@ -8,183 +8,197 @@ import javafx.scene.Node;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import keltiga.model.User;
+import java.util.Map;
+import java.net.URL;
 
 public class LevelSelectionController {
  
-    @FXML private Button playButton;
-    @FXML private Button switchUserButton;
-    @FXML private Label userLabel;
+    @FXML private Button sumatraIslandButton;
     @FXML private Button javaIslandButton;
-    @FXML private Button reefIslandButton;
-    @FXML private Button deepIslandButton;
-    @FXML private Button mapIslandButton;
-
-    private String selectedIsland = "Java Island";
-    private String selectedDifficulty = "Easy";
+    @FXML private Button papuaIslandButton;
+    @FXML private Label userLabel;
+    
+    private String selectedIsland = "";
     private User currentUser;
     private MediaPlayer backgroundMusic;
 
     @FXML
     public void initialize() {
-        this.currentUser = SceneManager.getCurrentUser();
-        updateUserUI();
-        playIslandSelectionMusic();
+        SceneManager.setLevelSelectionController(this);
+        try {
+            currentUser = SceneManager.getCurrentUser();
+            
+            // Set username
+            if (userLabel != null && currentUser != null) {
+                userLabel.setText(currentUser.getUsername());
+            }
+            
+            // Initialize unlockedIslands jika null
+            if (currentUser != null && currentUser.getUnlockedIslands() == null) {
+                currentUser.updateIslandProgress("Sumatra Island", "none");
+            }
+            
+            // Set island buttons state
+            if (currentUser != null) {
+                // Sumatra selalu terbuka
+                if (sumatraIslandButton != null) {
+                    sumatraIslandButton.setDisable(false);
+                    sumatraIslandButton.setOpacity(1.0);
+                }
+                
+                // Java dan Papua berdasarkan progress
+                if (javaIslandButton != null) {
+                    boolean javaUnlocked = currentUser.isIslandUnlocked("Java Island");
+                    javaIslandButton.setDisable(!javaUnlocked);
+                    javaIslandButton.setOpacity(javaUnlocked ? 1.0 : 0.5);
+                }
+                
+                if (papuaIslandButton != null) {
+                    boolean papuaUnlocked = currentUser.isIslandUnlocked("Papua Island");
+                    papuaIslandButton.setDisable(!papuaUnlocked);
+                    papuaIslandButton.setOpacity(papuaUnlocked ? 1.0 : 0.5);
+                }
+            }
+            
+            playBackgroundMusic();
+            
+        } catch (Exception e) {
+            System.out.println("Error in initialize: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    private void playIslandSelectionMusic() {
+    private void playBackgroundMusic() {
         try {
-            Media sound = new Media(getClass().getResource("/music/island.mp3").toExternalForm());
+            if (backgroundMusic != null) {
+                backgroundMusic.stop();
+                backgroundMusic.dispose();
+            }
+            
+            URL musicUrl = getClass().getResource("/music/island.mp3");
+            if (musicUrl == null) {
+                System.out.println("Music file not found at: /music/island.mp3");
+                return;
+            }
+            
+            Media sound = new Media(musicUrl.toExternalForm());
             backgroundMusic = new MediaPlayer(sound);
+            backgroundMusic.setVolume(0.5);
             backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
             backgroundMusic.play();
         } catch (Exception e) {
-            System.out.println("Error playing island selection music: " + e.getMessage());
+            System.out.println("Error playing music: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    private void stopMusic() {
-        if (backgroundMusic != null) {
-            backgroundMusic.stop();
-            backgroundMusic.dispose();
+    private void stopBackgroundMusic() {
+        try {
+            if (backgroundMusic != null) {
+                backgroundMusic.stop();
+                backgroundMusic.dispose();
+                backgroundMusic = null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error stopping music: " + e.getMessage());
         }
-    }
-
-    private void showDifficultyDialog(String island) {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle("Select Difficulty");
-        
-        DialogPane dialogPane = dialog.getDialogPane();
-        
-        dialogPane.setStyle("-fx-background-color: #36AEC6; " +
-                           "-fx-background-radius: 15px; " +
-                           "-fx-border-radius: 15px; " +
-                           "-fx-border-color: #2D91A6; " +
-                           "-fx-border-width: 2px;");
-        
-        VBox buttonBox = new VBox(15);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setPadding(new javafx.geometry.Insets(25));
-        buttonBox.setStyle("-fx-background-color: transparent;");
-        
-        Label titleLabel = new Label("SELECT DIFFICULTY");
-        titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;");
-        buttonBox.getChildren().add(titleLabel);
-        
-        String baseButtonStyle = "-fx-min-width: 220px; " +
-                               "-fx-min-height: 45px; " +
-                               "-fx-font-size: 16px; " +
-                               "-fx-font-weight: bold; " +
-                               "-fx-background-radius: 10px; " +
-                               "-fx-cursor: hand; ";
-        
-        Button easyBtn = new Button("EASY");
-        Button mediumBtn = new Button("MEDIUM");
-        Button hardBtn = new Button("HARD");
-        
-        easyBtn.setStyle(baseButtonStyle + 
-                        "-fx-background-color: #7ED957; " +
-                        "-fx-text-fill: white;");
-        easyBtn.setOnMouseEntered(e -> easyBtn.setStyle(baseButtonStyle + 
-                        "-fx-background-color: #6BC348; -fx-text-fill: white;"));
-        easyBtn.setOnMouseExited(e -> easyBtn.setStyle(baseButtonStyle + 
-                        "-fx-background-color: #7ED957; -fx-text-fill: white;"));
-        
-        mediumBtn.setStyle(baseButtonStyle + 
-                          "-fx-background-color: #FFB302; " +
-                          "-fx-text-fill: white;");
-        mediumBtn.setOnMouseEntered(e -> mediumBtn.setStyle(baseButtonStyle + 
-                          "-fx-background-color: #E6A102; -fx-text-fill: white;"));
-        mediumBtn.setOnMouseExited(e -> mediumBtn.setStyle(baseButtonStyle + 
-                          "-fx-background-color: #FFB302; -fx-text-fill: white;"));
-        
-        hardBtn.setStyle(baseButtonStyle + 
-                        "-fx-background-color: #FF4646; " +
-                        "-fx-text-fill: white;");
-        hardBtn.setOnMouseEntered(e -> hardBtn.setStyle(baseButtonStyle + 
-                        "-fx-background-color: #E63E3E; -fx-text-fill: white;"));
-        hardBtn.setOnMouseExited(e -> hardBtn.setStyle(baseButtonStyle + 
-                        "-fx-background-color: #FF4646; -fx-text-fill: white;"));
-        
-        Label islandLabel = new Label(island);
-        islandLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;");
-        buttonBox.getChildren().add(islandLabel);
-        
-        buttonBox.getChildren().addAll(easyBtn, mediumBtn, hardBtn);
-        
-        dialogPane.setContent(buttonBox);
-        
-        dialogPane.setPrefWidth(320);
-        dialogPane.setPrefHeight(300);
-        
-        dialogPane.setHeaderText(null);
-        
-        dialogPane.getButtonTypes().add(ButtonType.CANCEL);
-        Node closeButton = dialogPane.lookupButton(ButtonType.CANCEL);
-        closeButton.setVisible(false);
-        
-        easyBtn.setOnAction(e -> {
-            selectedDifficulty = "Easy";
-            selectedIsland = island;
-            dialog.setResult("Easy");
-            dialog.close();
-            startGame();
-        });
-        
-        mediumBtn.setOnAction(e -> {
-            selectedDifficulty = "Medium";
-            selectedIsland = island;
-            dialog.setResult("Medium");
-            dialog.close();
-            startGame();
-        });
-        
-        hardBtn.setOnAction(e -> {
-            selectedDifficulty = "Hard";
-            selectedIsland = island;
-            dialog.setResult("Hard");
-            dialog.close();
-            startGame();
-        });
-        
-        dialog.showAndWait();
     }
 
     @FXML
     private void selectSumatraIsland() {
+        stopBackgroundMusic();
         showDifficultyDialog("Sumatra Island");
     }
 
     @FXML
     private void selectJavaIsland() {
+        if (!currentUser.isIslandUnlocked("Java Island")) return;
+        stopBackgroundMusic();
         showDifficultyDialog("Java Island");
     }
 
     @FXML
     private void selectPapuaIsland() {
+        if (!currentUser.isIslandUnlocked("Papua Island")) return;
+        stopBackgroundMusic();
         showDifficultyDialog("Papua Island");
     }
 
-    private void updateUserUI() {
-        if (currentUser != null) {
-            userLabel.setText("User: " + currentUser.getUsername());
+    private void showDifficultyDialog(String island) {
+        try {
+            if (currentUser == null) return;
+            
+            Dialog<String> dialog = new Dialog<>();
+            dialog.setTitle("Select Difficulty");
+            
+            DialogPane dialogPane = dialog.getDialogPane();
+            dialogPane.setStyle("-fx-background-color: #36AEC6; -fx-background-radius: 15px;");
+            
+            VBox buttonBox = new VBox(15);
+            buttonBox.setAlignment(Pos.CENTER);
+            buttonBox.setPadding(new javafx.geometry.Insets(25));
+            
+            Button easyBtn = new Button("EASY");
+            Button mediumBtn = new Button("MEDIUM");
+            Button hardBtn = new Button("HARD");
+            
+            String baseStyle = "-fx-font-size: 16px; -fx-min-width: 200; -fx-text-fill: white;";
+            easyBtn.setStyle(baseStyle + "-fx-background-color: #4CAF50;");
+            mediumBtn.setStyle(baseStyle + "-fx-background-color: #FFA000;");
+            hardBtn.setStyle(baseStyle + "-fx-background-color: #D32F2F;");
+            
+            easyBtn.setDisable(!currentUser.canPlayDifficulty(island, "easy"));
+            mediumBtn.setDisable(!currentUser.canPlayDifficulty(island, "medium"));
+            hardBtn.setDisable(!currentUser.canPlayDifficulty(island, "hard"));
+            
+            buttonBox.getChildren().addAll(easyBtn, mediumBtn, hardBtn);
+            dialogPane.setContent(buttonBox);
+            dialogPane.getButtonTypes().add(ButtonType.CANCEL);
+            Node closeButton = dialogPane.lookupButton(ButtonType.CANCEL);
+            closeButton.setVisible(false);
+            
+            easyBtn.setOnAction(e -> {
+                dialog.close();
+                stopBackgroundMusic();
+                SceneManager.startGame(island, "easy");
+            });
+            
+            mediumBtn.setOnAction(e -> {
+                dialog.close();
+                stopBackgroundMusic();
+                SceneManager.startGame(island, "medium");
+            });
+            
+            hardBtn.setOnAction(e -> {
+                dialog.close();
+                stopBackgroundMusic();
+                SceneManager.startGame(island, "hard");
+            });
+            
+            dialog.setOnCloseRequest(e -> {
+                // Do nothing
+            });
+            
+            dialog.showAndWait();
+        } catch (Exception e) {
+            System.out.println("Error showing difficulty dialog: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @FXML
-    private void startGame() {
-        stopMusic();
-        SceneManager.startGame(selectedIsland, selectedDifficulty);
-    }
-
-    @FXML
     private void switchUser() {
-        stopMusic();
+        stopBackgroundMusic();
         SceneManager.switchToUserSelection();
     }
 
     @FXML
     private void goToMap() {
-        stopMusic();
+        stopBackgroundMusic();
         SceneManager.switchToMapIsland();
+    }
+
+    public void onSceneChange() {
+        stopBackgroundMusic();
     }
 }
